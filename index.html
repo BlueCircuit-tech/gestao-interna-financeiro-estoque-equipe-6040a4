@@ -2469,6 +2469,629 @@ document.addEventListener('DOMContentLoaded', () => estoque_filtrar());
 })();
 </script>
 
+    <section data-tela="relatorios" class="hidden">
+    <div id="relatorios-content">
+      <div class="px-5 pt-6 pb-2">
+        <div>
+          <h1 class="font-display text-2xl font-bold text-white leading-tight">Relatórios</h1>
+          <p class="text-white/50 text-sm mt-1">Análises e indicadores do negócio</p>
+        </div>
+      </div>
+
+      <div class="px-5 py-3 flex gap-2 overflow-x-auto no-scrollbar">
+        <button onclick="relatorios_mudarAba('vendas')" id="tab-vendas" class="relatorio-tab active-tab flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-marca-500 text-white">Vendas</button>
+        <button onclick="relatorios_mudarAba('produtos')" id="tab-produtos" class="relatorio-tab flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-white/5 text-white/50 hover:bg-white/10">Produtos</button>
+        <button onclick="relatorios_mudarAba('fluxo')" id="tab-fluxo" class="relatorio-tab flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-white/5 text-white/50 hover:bg-white/10">Fluxo de Caixa</button>
+        <button onclick="relatorios_mudarAba('equipe')" id="tab-equipe" class="relatorio-tab flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-white/5 text-white/50 hover:bg-white/10">Equipe</button>
+        <button onclick="relatorios_mudarAba('estoque')" id="tab-estoque" class="relatorio-tab flex-shrink-0 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-white/5 text-white/50 hover:bg-white/10">Estoque</button>
+      </div>
+
+      <div class="px-5 pb-3">
+        <div class="flex gap-2 bg-white/5 rounded-xl p-1">
+          <button onclick="relatorios_setFiltro('hoje')" id="filtro-hoje" class="filtro-btn active-filtro flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 bg-marca-500 text-white">Hoje</button>
+          <button onclick="relatorios_setFiltro('semana')" id="filtro-semana" class="filtro-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-white/50 hover:text-white/70">Semana</button>
+          <button onclick="relatorios_setFiltro('mes')" id="filtro-mes" class="filtro-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-white/50 hover:text-white/70">Mês</button>
+          <button onclick="relatorios_abrirPersonalizado()" id="filtro-personalizado" class="filtro-btn flex-1 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 text-white/50 hover:text-white/70 flex items-center justify-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/></svg>
+            Personalizado
+          </button>
+        </div>
+      </div>
+
+      <div id="relatorios-body" class="px-5 pb-28">
+      </div>
+
+      <div class="fixed bottom-0 left-0 right-0 p-4 z-50">
+        <div class="max-w-[430px] mx-auto">
+          <div class="bg-marca-900/95 backdrop-blur-md rounded-2xl p-3 flex gap-2 shadow-2xl shadow-black/30 border border-white/5">
+            <button onclick="relatorios_exportar('pdf')" class="flex-1 bg-white/10 hover:bg-white/15 active:scale-95 text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+              <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              Exportar PDF
+            </button>
+            <button onclick="relatorios_exportar('csv')" class="flex-1 bg-marca-500 hover:bg-marca-400 active:scale-95 text-white text-sm font-semibold py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+              Exportar CSV
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  const relatorios_svgIcons = {};
+  function relatorios_getIcon(name) {
+    if (!relatorios_svgIcons[name]) {
+      const icons = {
+        vendas: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/></svg>',
+        produtos: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>',
+        fluxo: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>',
+        equipe: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>',
+        estoque: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>',
+        arrowUp: '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>',
+        arrowDown: '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>',
+        up: '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>',
+        down: '<svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>',
+        chart: '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>'
+      };
+      relatorios_svgIcons[name] = icons[name] || '';
+    }
+    return relatorios_svgIcons[name];
+  }
+
+  let relatorios_aba = 'vendas';
+  let relatorios_filtro = 'hoje';
+
+  const R = {
+    vendas: {
+      hoje: {
+        periodo: 'Hoje — 15/01/2026',
+        kpis: [
+          { label: 'Vendas Hoje', valor: 'R$ 3.480,00', variacao: 8.3, icone: 'vendas', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 145,00', variacao: 3.1, icone: 'chart', cor: 'blue' },
+          { label: 'Transações', valor: '24', variacao: -2.0, icone: 'produtos', cor: 'amber' }
+        ],
+        produtos: [
+          { nome: 'Pão Francês (kg)', qtd: 45, valor: 472.50 },
+          { nome: 'Café Torrado (kg)', qtd: 28, valor: 616.00 },
+          { nome: 'Leite Integral (L)', qtd: 22, valor: 275.50 },
+          { nome: 'Arroz Integral (kg)', qtd: 15, valor: 247.50 },
+          { nome: 'Óleo de Soja (L)', qtd: 12, valor: 168.00 }
+        ],
+        vendedores: [
+          { nome: 'Ana Silva', vendas: 18, valor: 1620.00 },
+          { nome: 'Carlos Mendes', vendas: 15, valor: 1280.00 },
+          { nome: 'Fernanda Costa', vendas: 12, valor: 980.00 }
+        ]
+      },
+      semana: {
+        periodo: 'Semana — 13 a 15/01/2026',
+        kpis: [
+          { label: 'Vendas da Semana', valor: 'R$ 21.350,00', variacao: 15.2, icone: 'vendas', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 152,00', variacao: 5.4, icone: 'chart', cor: 'blue' },
+          { label: 'Transações', valor: '141', variacao: 10.6, icone: 'produtos', cor: 'amber' }
+        ],
+        produtos: [
+          { nome: 'Café Torrado (kg)', qtd: 87, valor: 1914.00 },
+          { nome: 'Pão Francês (kg)', qtd: 120, valor: 1260.00 },
+          { nome: 'Açúcar Refinado (kg)', qtd: 55, valor: 367.50 },
+          { nome: 'Leite Integral (L)', qtd: 68, valor: 853.50 },
+          { nome: 'Arroz Integral (kg)', qtd: 42, valor: 693.00 }
+        ],
+        vendedores: [
+          { nome: 'Ana Silva', vendas: 52, valor: 5420.00 },
+          { nome: 'Carlos Mendes', vendas: 41, valor: 4350.00 },
+          { nome: 'Fernanda Costa', vendas: 33, valor: 2980.00 },
+          { nome: 'Bruno Lima', vendas: 15, valor: 1250.00 }
+        ]
+      },
+      mes: {
+        periodo: 'Janeiro 2026',
+        kpis: [
+          { label: 'Vendas do Mês', valor: 'R$ 87.420,00', variacao: 12.5, icone: 'vendas', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 145,00', variacao: 2.8, icone: 'chart', cor: 'blue' },
+          { label: 'Transações', valor: '604', variacao: 8.1, icone: 'produtos', cor: 'amber' }
+        ],
+        produtos: [
+          { nome: 'Café Torrado (kg)', qtd: 320, valor: 7040.00 },
+          { nome: 'Pão Francês (kg)', qtd: 450, valor: 4725.00 },
+          { nome: 'Arroz Integral (kg)', qtd: 195, valor: 3217.50 },
+          { nome: 'Leite Integral (L)', qtd: 280, valor: 3500.00 },
+          { nome: 'Açúcar Refinado (kg)', qtd: 170, valor: 1139.00 }
+        ],
+        vendedores: [
+          { nome: 'Ana Silva', vendas: 210, valor: 24500.00 },
+          { nome: 'Carlos Mendes', vendas: 185, valor: 21800.00 },
+          { nome: 'Fernanda Costa', vendas: 128, valor: 15420.00 },
+          { nome: 'Bruno Lima', vendas: 81, valor: 10700.00 }
+        ]
+      },
+      personalizado: {
+        periodo: '01/01/2026 — 15/01/2026',
+        kpis: [
+          { label: 'Vendas do Período', valor: 'R$ 45.680,00', variacao: 9.7, icone: 'vendas', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 148,00', variacao: 1.5, icone: 'chart', cor: 'blue' },
+          { label: 'Transações', valor: '309', variacao: 5.3, icone: 'produtos', cor: 'amber' }
+        ],
+        produtos: [
+          { nome: 'Café Torrado (kg)', qtd: 160, valor: 3520.00 },
+          { nome: 'Pão Francês (kg)', qtd: 225, valor: 2362.50 },
+          { nome: 'Arroz Integral (kg)', qtd: 97, valor: 1600.50 },
+          { nome: 'Leite Integral (L)', qtd: 140, valor: 1750.00 },
+          { nome: 'Açúcar Refinado (kg)', qtd: 85, valor: 569.50 }
+        ],
+        vendedores: [
+          { nome: 'Ana Silva', vendas: 105, valor: 12250.00 },
+          { nome: 'Carlos Mendes', vendas: 92, valor: 10900.00 },
+          { nome: 'Fernanda Costa', vendas: 64, valor: 7710.00 },
+          { nome: 'Bruno Lima', vendas: 48, valor: 6420.00 }
+        ]
+      }
+    },
+    produtos: {
+      hoje: { periodo: 'Hoje — 15/01/2026', items: [
+        { nome: 'Pão Francês (kg)', qtd: 45, receita: 472.50 },
+        { nome: 'Café Torrado (kg)', qtd: 28, receita: 616.00 },
+        { nome: 'Leite Integral (L)', qtd: 22, receita: 275.50 },
+        { nome: 'Arroz Integral (kg)', qtd: 15, receita: 247.50 },
+        { nome: 'Óleo de Soja (L)', qtd: 12, receita: 168.00 },
+        { nome: 'Açúcar Refinado (kg)', qtd: 10, receita: 67.00 },
+        { nome: 'Feijão Carioca (kg)', qtd: 8, receita: 92.00 },
+        { nome: 'Macarrão Espaguete (kg)', qtd: 6, receita: 54.00 }
+      ]},
+      semana: { periodo: 'Semana — 13 a 15/01/2026', items: [
+        { nome: 'Pão Francês (kg)', qtd: 120, receita: 1260.00 },
+        { nome: 'Café Torrado (kg)', qtd: 87, receita: 1914.00 },
+        { nome: 'Leite Integral (L)', qtd: 68, receita: 853.50 },
+        { nome: 'Açúcar Refinado (kg)', qtd: 55, receita: 367.50 },
+        { nome: 'Arroz Integral (kg)', qtd: 42, receita: 693.00 },
+        { nome: 'Óleo de Soja (L)', qtd: 35, receita: 490.00 },
+        { nome: 'Feijão Carioca (kg)', qtd: 28, receita: 322.00 },
+        { nome: 'Macarrão Espaguete (kg)', qtd: 22, receita: 198.00 }
+      ]},
+      mes: { periodo: 'Janeiro 2026', items: [
+        { nome: 'Pão Francês (kg)', qtd: 450, receita: 4725.00 },
+        { nome: 'Café Torrado (kg)', qtd: 320, receita: 7040.00 },
+        { nome: 'Leite Integral (L)', qtd: 280, receita: 3500.00 },
+        { nome: 'Arroz Integral (kg)', qtd: 195, receita: 3217.50 },
+        { nome: 'Açúcar Refinado (kg)', qtd: 170, receita: 1139.00 },
+        { nome: 'Óleo de Soja (L)', qtd: 140, receita: 1960.00 },
+        { nome: 'Feijão Carioca (kg)', qtd: 110, receita: 1265.00 },
+        { nome: 'Macarrão Espaguete (kg)', qtd: 85, receita: 765.00 }
+      ]},
+      personalizado: { periodo: '01/01/2026 — 15/01/2026', items: [
+        { nome: 'Pão Francês (kg)', qtd: 225, receita: 2362.50 },
+        { nome: 'Café Torrado (kg)', qtd: 160, receita: 3520.00 },
+        { nome: 'Leite Integral (L)', qtd: 140, receita: 1750.00 },
+        { nome: 'Arroz Integral (kg)', qtd: 97, receita: 1600.50 },
+        { nome: 'Açúcar Refinado (kg)', qtd: 85, receita: 569.50 },
+        { nome: 'Óleo de Soja (L)', qtd: 70, receita: 980.00 },
+        { nome: 'Feijão Carioca (kg)', qtd: 55, receita: 632.50 },
+        { nome: 'Macarrão Espaguete (kg)', qtd: 42, receita: 378.00 }
+      ]}
+    },
+    fluxo: {
+      hoje: {
+        periodo: 'Hoje — 15/01/2026',
+        kpis: [
+          { label: 'Entradas', valor: 'R$ 3.480,00', variacao: 8.3, icone: 'arrowUp', cor: 'marca' },
+          { label: 'Saídas', valor: 'R$ 1.250,00', variacao: -5.2, icone: 'arrowDown', cor: 'red' },
+          { label: 'Saldo', valor: 'R$ 2.230,00', variacao: 22.1, icone: 'chart', cor: 'blue' }
+        ],
+        entradas: [
+          { desc: 'Vendas em dinheiro', valor: 1420.00, hora: '08:30' },
+          { desc: 'Vendas no cartão débito', valor: 1240.00, hora: '10:15' },
+          { desc: 'Vendas no cartão crédito', valor: 680.00, hora: '14:22' },
+          { desc: 'Recebimento de cliente', valor: 140.00, hora: '16:45' }
+        ],
+        saidas: [
+          { desc: 'Fornecedor — Café Arabica', valor: -580.00, hora: '07:00' },
+          { desc: 'Fornecedor — Padaria', valor: -420.00, hora: '09:30' },
+          { desc: 'Pagamento — Aluguel', valor: -250.00, hora: '11:00' }
+        ]
+      },
+      semana: {
+        periodo: 'Semana — 13 a 15/01/2026',
+        kpis: [
+          { label: 'Entradas', valor: 'R$ 21.350,00', variacao: 15.2, icone: 'arrowUp', cor: 'marca' },
+          { label: 'Saídas', valor: 'R$ 8.400,00', variacao: 3.1, icone: 'arrowDown', cor: 'red' },
+          { label: 'Saldo', valor: 'R$ 12.950,00', variacao: 28.5, icone: 'chart', cor: 'blue' }
+        ],
+        entradas: [
+          { desc: 'Vendas em dinheiro', valor: 7850.00, hora: 'Semanal' },
+          { desc: 'Vendas no cartão débito', valor: 6200.00, hora: 'Semanal' },
+          { desc: 'Vendas no cartão crédito', valor: 4800.00, hora: 'Semanal' },
+          { desc: 'Recebimentos de clientes', valor: 2500.00, hora: 'Semanal' }
+        ],
+        saidas: [
+          { desc: 'Fornecedor — Café Arabica', valor: -2400.00, hora: 'Semanal' },
+          { desc: 'Fornecedor — Padaria', valor: -1800.00, hora: 'Semanal' },
+          { desc: 'Pagamento — Aluguel', valor: -1200.00, hora: 'Semanal' },
+          { desc: 'Funcionários — Salários', valor: -3000.00, hora: 'Semanal' }
+        ]
+      },
+      mes: {
+        periodo: 'Janeiro 2026',
+        kpis: [
+          { label: 'Entradas', valor: 'R$ 87.420,00', variacao: 12.5, icone: 'arrowUp', cor: 'marca' },
+          { label: 'Saídas', valor: 'R$ 42.800,00', variacao: -2.3, icone: 'arrowDown', cor: 'red' },
+          { label: 'Saldo', valor: 'R$ 44.620,00', variacao: 38.1, icone: 'chart', cor: 'blue' }
+        ],
+        entradas: [
+          { desc: 'Vendas em dinheiro', valor: 32800.00, hora: 'Mensal' },
+          { desc: 'Vendas no cartão débito', valor: 26200.00, hora: 'Mensal' },
+          { desc: 'Vendas no cartão crédito', valor: 19420.00, hora: 'Mensal' },
+          { desc: 'Recebimentos de clientes', valor: 9000.00, hora: 'Mensal' }
+        ],
+        saidas: [
+          { desc: 'Fornecedor — Café Arabica', valor: -10200.00, hora: 'Mensal' },
+          { desc: 'Fornecedor — Padaria', valor: -7800.00, hora: 'Mensal' },
+          { desc: 'Pagamento — Aluguel', valor: -4800.00, hora: 'Mensal' },
+          { desc: 'Funcionários — Salários', valor: -15000.00, hora: 'Mensal' },
+          { desc: 'Impostos e taxas', valor: -5000.00, hora: 'Mensal' }
+        ]
+      },
+      personalizado: {
+        periodo: '01/01/2026 — 15/01/2026',
+        kpis: [
+          { label: 'Entradas', valor: 'R$ 45.680,00', variacao: 9.7, icone: 'arrowUp', cor: 'marca' },
+          { label: 'Saídas', valor: 'R$ 20.600,00', variacao: 1.8, icone: 'arrowDown', cor: 'red' },
+          { label: 'Saldo', valor: 'R$ 25.080,00', variacao: 18.6, icone: 'chart', cor: 'blue' }
+        ],
+        entradas: [
+          { desc: 'Vendas em dinheiro', valor: 16500.00, hora: 'Período' },
+          { desc: 'Vendas no cartão débito', valor: 13100.00, hora: 'Período' },
+          { desc: 'Vendas no cartão crédito', valor: 9880.00, hora: 'Período' },
+          { desc: 'Recebimentos de clientes', valor: 4200.00, hora: 'Período' }
+        ],
+        saidas: [
+          { desc: 'Fornecedor — Café Arabica', valor: -5100.00, hora: 'Período' },
+          { desc: 'Fornecedor — Padaria', valor: -3900.00, hora: 'Período' },
+          { desc: 'Pagamento — Aluguel', valor: -2400.00, hora: 'Período' },
+          { desc: 'Funcionários — Salários', valor: -7500.00, hora: 'Período' },
+          { desc: 'Impostos e taxas', valor: -2700.00, hora: 'Período' }
+        ]
+      }
+    },
+    equipe: {
+      hoje: {
+        periodo: 'Hoje — 15/01/2026',
+        kpis: [
+          { label: 'Vendas da Equipe', valor: 'R$ 3.480,00', variacao: 8.3, icone: 'equipe', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 145,00', variacao: 3.1, icone: 'chart', cor: 'blue' },
+          { label: 'Ativos Hoje', valor: '3/4', variacao: 0, icone: 'equipe', cor: 'amber' }
+        ],
+        membros: [
+          { nome: 'Ana Silva', vendas: 18, valor: 1620.00, comissao: 162.00, status: 'online', nota: 4.8 },
+          { nome: 'Carlos Mendes', vendas: 15, valor: 1280.00, comissao: 128.00, status: 'online', nota: 4.5 },
+          { nome: 'Fernanda Costa', vendas: 12, valor: 980.00, comissao: 98.00, status: 'online', nota: 4.6 },
+          { nome: 'Bruno Lima', vendas: 0, valor: 0, comissao: 0, status: 'ausente', nota: 4.2 }
+        ]
+      },
+      semana: {
+        periodo: 'Semana — 13 a 15/01/2026',
+        kpis: [
+          { label: 'Vendas da Equipe', valor: 'R$ 21.350,00', variacao: 15.2, icone: 'equipe', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 152,00', variacao: 5.4, icone: 'chart', cor: 'blue' },
+          { label: 'Ativos', valor: '4/4', variacao: 0, icone: 'equipe', cor: 'amber' }
+        ],
+        membros: [
+          { nome: 'Ana Silva', vendas: 52, valor: 5420.00, comissao: 542.00, status: 'online', nota: 4.8 },
+          { nome: 'Carlos Mendes', vendas: 41, valor: 4350.00, comissao: 435.00, status: 'online', nota: 4.5 },
+          { nome: 'Fernanda Costa', vendas: 33, valor: 2980.00, comissao: 298.00, status: 'online', nota: 4.6 },
+          { nome: 'Bruno Lima', vendas: 15, valor: 1250.00, comissao: 125.00, status: 'online', nota: 4.2 }
+        ]
+      },
+      mes: {
+        periodo: 'Janeiro 2026',
+        kpis: [
+          { label: 'Vendas da Equipe', valor: 'R$ 87.420,00', variacao: 12.5, icone: 'equipe', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 145,00', variacao: 2.8, icone: 'chart', cor: 'blue' },
+          { label: 'Ativos', valor: '4/4', variacao: 0, icone: 'equipe', cor: 'amber' }
+        ],
+        membros: [
+          { nome: 'Ana Silva', vendas: 210, valor: 24500.00, comissao: 2450.00, status: 'online', nota: 4.8 },
+          { nome: 'Carlos Mendes', vendas: 185, valor: 21800.00, comissao: 2180.00, status: 'online', nota: 4.5 },
+          { nome: 'Fernanda Costa', vendas: 128, valor: 15420.00, comissao: 1542.00, status: 'online', nota: 4.6 },
+          { nome: 'Bruno Lima', vendas: 81, valor: 10700.00, comissao: 1070.00, status: 'ausente', nota: 4.2 }
+        ]
+      },
+      personalizado: {
+        periodo: '01/01/2026 — 15/01/2026',
+        kpis: [
+          { label: 'Vendas da Equipe', valor: 'R$ 45.680,00', variacao: 9.7, icone: 'equipe', cor: 'marca' },
+          { label: 'Ticket Médio', valor: 'R$ 148,00', variacao: 1.5, icone: 'chart', cor: 'blue' },
+          { label: 'Ativos', valor: '4/4', variacao: 0, icone: 'equipe', cor: 'amber' }
+        ],
+        membros: [
+          { nome: 'Ana Silva', vendas: 105, valor: 12250.00, comissao: 1225.00, status: 'online', nota: 4.8 },
+          { nome: 'Carlos Mendes', vendas: 92, valor: 10900.00, comissao: 1090.00, status: 'online', nota: 4.5 },
+          { nome: 'Fernanda Costa', vendas: 64, valor: 7710.00, comissao: 771.00, status: 'online', nota: 4.6 },
+          { nome: 'Bruno Lima', vendas: 48, valor: 6420.00, comissao: 642.00, status: 'ausente', nota: 4.2 }
+        ]
+      }
+    },
+    estoque: {
+      hoje: {
+        periodo: 'Atualizado hoje — 15/01/2026',
+        kpis: [
+          { label: 'Produtos', valor: '248', variacao: 0, icone: 'estoque', cor: 'marca' },
+          { label: 'Críticos', valor: '7', variacao: -14.3, icone: 'chart', cor: 'red' },
+          { label: 'Valor em Estoque', valor: 'R$ 42.500', variacao: 5.2, icone: 'vendas', cor: 'blue' }
+        ],
+        items: [
+          { nome: 'Açúcar Refinado 1kg', atual: 3, minimo: 20, status: 'critical' },
+          { nome: 'Óleo de Soja 900ml', atual: 5, minimo: 15, status: 'critical' },
+          { nome: 'Fermento em Pó 100g', atual: 2, minimo: 10, status: 'critical' },
+          { nome: 'Sal Refinado 1kg', atual: 8, minimo: 12, status: 'alert' },
+          { nome: 'Café Torrado 500g', atual: 14, minimo: 20, status: 'alert' },
+          { nome: 'Farinha de Trigo 1kg', atual: 25, minimo: 30, status: 'warning' },
+          { nome: 'Leite Integral 1L', atual: 42, minimo: 30, status: 'ok' },
+          { nome: 'Arroz Integral 1kg', atual: 55, minimo: 25, status: 'ok' }
+        ]
+      },
+      semana: {
+        periodo: 'Semana — 13 a 15/01/2026',
+        kpis: [
+          { label: 'Produtos', valor: '248', variacao: 0, icone: 'estoque', cor: 'marca' },
+          { label: 'Críticos', valor: '5', variacao: -16.7, icone: 'chart', cor: 'red' },
+          { label: 'Valor em Estoque', valor: 'R$ 41.800', variacao: 3.1, icone: 'vendas', cor: 'blue' }
+        ],
+        items: [
+          { nome: 'Açúcar Refinado 1kg', atual: 4, minimo: 20, status: 'critical' },
+          { nome: 'Óleo de Soja 900ml', atual: 6, minimo: 15, status: 'critical' },
+          { nome: 'Fermento em Pó 100g', atual: 3, minimo: 10, status: 'critical' },
+          { nome: 'Sal Refinado 1kg', atual: 10, minimo: 12, status: 'alert' },
+          { nome: 'Café Torrado 500g', atual: 16, minimo: 20, status: 'alert' },
+          { nome: 'Farinha de Trigo 1kg', atual: 28, minimo: 30, status: 'warning' },
+          { nome: 'Leite Integral 1L', atual: 45, minimo: 30, status: 'ok' },
+          { nome: 'Arroz Integral 1kg', atual: 58, minimo: 25, status: 'ok' }
+        ]
+      },
+      mes: {
+        periodo: 'Janeiro 2026',
+        kpis: [
+          { label: 'Produtos', valor: '248', variacao: 3.3, icone: 'estoque', cor: 'marca' },
+          { label: 'Críticos', valor: '9', variacao: 28.6, icone: 'chart', cor: 'red' },
+          { label: 'Valor em Estoque', valor: 'R$ 42.500', variacao: 7.8, icone: 'vendas', cor: 'blue' }
+        ],
+        items: [
+          { nome: 'Açúcar Refinado 1kg', atual: 3, minimo: 20, status: 'critical' },
+          { nome: 'Óleo de Soja 900ml', atual: 4, minimo: 15, status: 'critical' },
+          { nome: 'Fermento em Pó 100g', atual: 1, minimo: 10, status: 'critical' },
+          { nome: 'Sal Refinado 1kg', atual: 6, minimo: 12, status: 'alert' },
+          { nome: 'Café Torrado 500g', atual: 11, minimo: 20, status: 'alert' },
+          { nome: 'Farinha de Trigo 1kg', atual: 22, minimo: 30, status: 'warning' },
+          { nome: 'Leite Integral 1L', atual: 38, minimo: 30, status: 'ok' },
+          { nome: 'Arroz Integral 1kg', atual: 52, minimo: 25, status: 'ok' }
+        ]
+      },
+      personalizado: {
+        periodo: '01/01/2026 — 15/01/2026',
+        kpis: [
+          { label: 'Produtos', valor: '248', variacao: 1.6, icone: 'estoque', cor: 'marca' },
+          { label: 'Críticos', valor: '7', variacao: 0, icone: 'chart', cor: 'red' },
+          { label: 'Valor em Estoque', valor: 'R$ 42.150', variacao: 6.2, icone: 'vendas', cor: 'blue' }
+        ],
+        items: [
+          { nome: 'Açúcar Refinado 1kg', atual: 3, minimo: 20, status: 'critical' },
+          { nome: 'Óleo de Soja 900ml', atual: 5, minimo: 15, status: 'critical' },
+          { nome: 'Fermento em Pó 100g', atual: 2, minimo: 10, status: 'critical' },
+          { nome: 'Sal Refinado 1kg', atual: 8, minimo: 12, status: 'alert' },
+          { nome: 'Café Torrado 500g', atual: 14, minimo: 20, status: 'alert' },
+          { nome: 'Farinha de Trigo 1kg', atual: 25, minimo: 30, status: 'warning' },
+          { nome: 'Leite Integral 1L', atual: 42, minimo: 30, status: 'ok' },
+          { nome: 'Arroz Integral 1kg', atual: 55, minimo: 25, status: 'ok' }
+        ]
+      }
+    }
+  };
+
+  function relatorios_mudarAba(aba) {
+    relatorios_aba = aba;
+    document.querySelectorAll('.relatorio-tab').forEach(t => {
+      t.classList.remove('active-tab', 'bg-marca-500', 'text-white');
+      t.classList.add('bg-white/5', 'text-white/50');
+    });
+    const active = document.getElementById('tab-' + aba);
+    if (active) {
+      active.classList.add('active-tab', 'bg-marca-500', 'text-white');
+      active.classList.remove('bg-white/5', 'text-white/50');
+    }
+    relatorios_renderizar();
+  }
+
+  function relatorios_setFiltro(f) {
+    relatorios_filtro = f;
+    document.querySelectorAll('.filtro-btn').forEach(b => {
+      b.classList.remove('active-filtro', 'bg-marca-500', 'text-white');
+      b.classList.add('text-white/50');
+    });
+    const el = document.getElementById('filtro-' + f);
+    if (el) {
+      el.classList.add('active-filtro', 'bg-marca-500', 'text-white');
+      el.classList.remove('text-white/50');
+    }
+    relatorios_renderizar();
+  }
+
+  function relatorios_abrirPersonalizado() {
+    const h = new Date();
+    const d1 = '01/01/2026';
+    const d2 = dataBR(h.toISOString());
+    abrirModal('<div class="space-y-4"><div><label class="block text-sm font-medium text-gray-300 mb-1.5">Data Inicial</label><input type="date" id="dt-ini" value="2026-01-01" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none transition"></div><div><label class="block text-sm font-medium text-gray-300 mb-1.5">Data Final</label><input type="date" id="dt-fim" value="2026-01-15" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none transition"></div></div>', 'Período Personalizado');
+    setTimeout(() => {
+      const btn = document.createElement('button');
+      btn.textContent = 'Aplicar';
+      btn.className = 'w-full bg-marca-500 hover:bg-marca-400 text-white font-semibold py-3 rounded-xl transition-all duration-200 active:scale-95 mt-4';
+      btn.onclick = function() {
+        const ini = document.getElementById('dt-ini').value;
+        const fim = document.getElementById('dt-fim').value;
+        if (ini && fim) {
+          relatorios_setFiltro('personalizado');
+          fecharModal();
+          toast('Período aplicado: ' + ini + ' a ' + fim, 'ok');
+        } else {
+          toast('Selecione as duas datas', 'erro');
+        }
+      };
+      document.querySelector('.modal-content') || document.querySelector('[class*="modal"]')?.appendChild(btn);
+    }, 100);
+  }
+
+  function relatorios_corStatus(s) {
+    const m = { ok: ['bg-marca-500/20 text-marca-400', 'Normal'], alert: ['bg-amber-500/20 text-amber-400', 'Baixo'], warning: ['bg-orange-500/20 text-orange-400', 'Atenção'], critical: ['bg-red-500/20 text-red-400', 'Crítico'] };
+    return m[s] || m.ok;
+  }
+
+  function relatorios_renderizar() {
+    const body = document.getElementById('relatorios-body');
+    if (!body) return;
+    const d = R[relatorios_aba] && R[relatorios_aba][relatorios_filtro] ? R[relatorios_aba][relatorios_filtro] : null;
+    if (!d) { body.innerHTML = ''; return; }
+
+    if (relatorios_aba === 'vendas') body.innerHTML = relatorios_vendasHTML(d);
+    else if (relatorios_aba === 'produtos') body.innerHTML = relatorios_produtosHTML(d);
+    else if (relatorios_aba === 'fluxo') body.innerHTML = relatorios_fluxoHTML(d);
+    else if (relatorios_aba === 'equipe') body.innerHTML = relatorios_equipeHTML(d);
+    else if (relatorios_aba === 'estoque') body.innerHTML = relatorios_estoqueHTML(d);
+    relatorios_anims();
+  }
+
+  function relatorios_kpiHTML(kpis) {
+    return kpis.map(k => {
+      const v = k.variacao;
+      const isUp = v >= 0;
+      const arrowColor = k.icone === 'arrowDown' || k.cor === 'red' ? 'text-red-400' : (isUp ? 'text-marca-400' : 'text-red-400');
+      const arrow = k.icone === 'arrowUp' || k.icone === 'arrowDown' ? relatorios_getIcon(isUp ? 'up' : 'down') : relatorios_getIcon('arrowUp');
+      const showArrow = k.icone !== 'chart';
+      const dotColor = k.cor === 'marca' ? 'bg-marca-500' : k.cor === 'blue' ? 'bg-blue-500' : k.cor === 'red' ? 'bg-red-500' : 'bg-amber-500';
+      const variacaoStr = showArrow
+        ? (v > 0 ? '+' : '') + v.toFixed(1) + '%'
+        : '';
+      return '<div class="card p-4 mb-3"><div class="flex items-center justify-between"><div class="flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl bg-' + k.cor + '-500/15 flex items-center justify-center text-' + k.cor + '-400">' + relatorios_getIcon(k.icone) + '</div><span class="text-gray-400 text-xs font-medium">' + k.label + '</span></div>' + (showArrow ? '<span class="' + arrowColor + ' text-xs font-bold flex items-center gap-0.5">' + arrow + ' ' + variacaoStr + '</span>' : '') + '</div><p class="font-display text-xl font-bold text-white mt-3">' + k.valor + '</p></div>';
+    }).join('');
+  }
+
+  function relatorios_vendasHTML(d) {
+    const maxProd = Math.max.apply(null, d.produtos.map(p => p.qtd));
+    const maxVend = Math.max.apply(null, d.vendedores.map(v => v.vendas));
+    const cor1 = '#22C55E', cor2 = '#15803D';
+    return relatorios_kpiHTML(d.kpis) +
+      '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-3">Vendas por dia</h3>' + relatorios_barrasSimples([1800,3200,3500,1200,3800,2800], ['Seg','Ter','Qua','Qui','Sex','Sáb'], maxProd > 0 ? 4500 : 5000) + '</div>' +
+      '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-3">Produtos mais vendidos</h3><div class="space-y-3">' + d.produtos.map((p, i) => {
+        const pct = maxProd > 0 ? ((p.qtd / maxProd) * 100).toFixed(0) : 0;
+        const medal = i === 0 ? 'bg-yellow-500 text-yellow-900' : i === 1 ? 'bg-gray-300 text-gray-800' : i === 2 ? 'bg-orange-600 text-orange-100' : 'bg-white/10 text-white/40';
+        return '<div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full ' + medal + ' flex items-center justify-center text-xs font-bold flex-shrink-0">' + (i+1) + '</span><div class="flex-1 min-w-0"><div class="flex items-center justify-between mb-1"><span class="text-white text-sm font-medium truncate">' + p.nome + '</span><span class="text-gray-400 text-xs ml-2 flex-shrink-0">' + p.qtd + ' un</span></div><div class="h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-marca-500 to-marca-400 transition-all duration-500" style="width:' + pct + '%"></div></div></div></div>';
+      }).join('') + '</div></div>' +
+      '<div class="card p-4"><h3 class="text-white font-display font-bold text-sm mb-3">Ranking de vendedores</h3><div class="space-y-3">' + d.vendedores.map((v, i) => {
+        const pct = maxVend > 0 ? ((v.vendas / maxVend) * 100).toFixed(0) : 0;
+        const medal = i === 0 ? 'bg-yellow-500 text-yellow-900' : i === 1 ? 'bg-gray-300 text-gray-800' : 'bg-orange-600 text-orange-100';
+        const inicial = v.nome.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+        const colors = ['bg-marca-500','bg-blue-500','bg-amber-500','bg-purple-500'];
+        return '<div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full ' + medal + ' flex items-center justify-center text-xs font-bold flex-shrink-0">' + (i+1) + '</span><div class="w-8 h-8 rounded-full ' + colors[i] + ' flex items-center justify-center text-white text-xs font-bold flex-shrink-0">' + inicial + '</div><div class="flex-1 min-w-0"><div class="flex items-center justify-between mb-1"><span class="text-white text-sm font-medium truncate">' + v.nome + '</span><span class="text-marca-400 text-xs font-semibold ml-2 flex-shrink-0">' + brl(v.valor) + '</span></div><div class="h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-marca-500 to-marca-400" style="width:' + pct + '%"></div></div></div></div>';
+      }).join('') + '</div></div>';
+  }
+
+  function relatorios_produtosHTML(d) {
+    const max = Math.max.apply(null, d.items.map(it => it.receita));
+    return '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-1">' + d.periodo + '</h3><p class="text-gray-400 text-xs">' + d.items.length + ' produtos vendidos</p></div>' +
+      '<div class="card p-4"><h3 class="text-white font-display font-bold text-sm mb-3">Produtos mais vendidos</h3><div class="space-y-3">' + d.items.map((p, i) => {
+        const pct = max > 0 ? ((p.receita / max) * 100).toFixed(0) : 0;
+        const medal = i === 0 ? 'bg-yellow-500 text-yellow-900' : i === 1 ? 'bg-gray-300 text-gray-800' : i === 2 ? 'bg-orange-600 text-orange-100' : 'bg-white/10 text-white/40';
+        return '<div class="flex items-center gap-3"><span class="w-6 h-6 rounded-full ' + medal + ' flex items-center justify-center text-xs font-bold flex-shrink-0">' + (i+1) + '</span><div class="flex-1 min-w-0"><div class="flex items-center justify-between mb-1"><span class="text-white text-sm font-medium truncate">' + p.nome + '</span><span class="text-gray-400 text-xs ml-2 flex-shrink-0">' + p.qtd + ' un</span></div><div class="h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-marca-500 to-marca-400" style="width:' + pct + '%"></div></div></div><span class="text-marca-400 text-sm font-semibold flex-shrink-0 w-16 text-right">' + brl(p.receita) + '</span></div>';
+      }).join('') + '</div></div>';
+  }
+
+  function relatorios_fluxoHTML(d) {
+    const bars = [2200,3800,3500,1200,4100,2800,3800,5200,4100,3800,8500,4200];
+    const labels = ['01','05','08','10','12','15'];
+    const maxB = 10000;
+    const all = d.entradas.concat(d.saidas);
+    return relatorios_kpiHTML(d.kpis) +
+      '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-3">Fluxo mensal</h3>' + relatorios_barrasFluxo(bars, labels, maxB) + '</div>' +
+      '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-3">Entradas</h3><div class="space-y-2.5">' + d.entradas.map(e => '<div class="flex items-center justify-between py-2 border-b border-white/5 last:border-0"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-marca-500/15 flex items-center justify-center"><svg class="w-3.5 h-3.5 text-marca-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg></div><div><span class="text-white text-sm font-medium">' + e.desc + '</span><span class="text-gray-500 text-xs block">' + e.hora + '</span></div></div><span class="text-marca-400 text-sm font-semibold">' + brl(e.valor) + '</span></div>').join('') + '</div></div>' +
+      '<div class="card p-4"><h3 class="text-white font-display font-bold text-sm mb-3">Saídas</h3><div class="space-y-2.5">' + d.saidas.map(s => '<div class="flex items-center justify-between py-2 border-b border-white/5 last:border-0"><div class="flex items-center gap-2.5"><div class="w-7 h-7 rounded-lg bg-red-500/15 flex items-center justify-center"><svg class="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15"/></svg></div><div><span class="text-white text-sm font-medium">' + s.desc + '</span><span class="text-gray-500 text-xs block">' + s.hora + '</span></div></div><span class="text-red-400 text-sm font-semibold">' + brl(s.valor) + '</span></div>').join('') + '</div></div>';
+  }
+
+  function relatorios_equipeHTML(d) {
+    return relatorios_kpiHTML(d.kpis) +
+      '<div class="card p-4"><h3 class="text-white font-display font-bold text-sm mb-3">Performance da equipe</h3><div class="space-y-3">' + d.membros.map((m, i) => {
+        const ini = m.nome.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase();
+        const colors = ['bg-marca-500','bg-blue-500','bg-amber-500','bg-purple-500'];
+        const statusDot = m.status === 'online' ? '<span class="w-2 h-2 rounded-full bg-marca-400 animate-pulse"></span>' : '<span class="w-2 h-2 rounded-full bg-gray-500"></span>';
+        const starColor = m.nota >= 4.5 ? 'text-yellow-400' : m.nota >= 4.0 ? 'text-amber-400' : 'text-gray-400';
+        return '<div onclick="relatorios_abrirDetalheMembro(\'' + m.nome + '\',' + m.vendas + ',' + m.comissao + ',\'' + m.status + '\',' + m.nota + ')" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer active:scale-[0.98]"><div class="relative"><div class="w-10 h-10 rounded-full ' + colors[i] + ' flex items-center justify-center text-white font-bold text-sm">' + ini + '</div>' + statusDot + '</div><div class="flex-1 min-w-0"><div class="flex items-center justify-between"><span class="text-white text-sm font-medium">' + m.nome + '</span><span class="text-marca-400 text-sm font-semibold">' + brl(m.valor) + '</span></div><div class="flex items-center justify-between mt-1"><span class="text-gray-500 text-xs">' + m.vendas + ' vendas</span><span class="' + starColor + ' text-xs flex items-center gap-0.5">★ ' + m.nota.toFixed(1) + '</span></div></div><svg class="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg></div>';
+      }).join('') + '</div></div>';
+  }
+
+  function relatorios_estoqueHTML(d) {
+    return relatorios_kpiHTML(d.kpis) +
+      '<div class="card p-4 mb-3"><h3 class="text-white font-display font-bold text-sm mb-1">' + d.periodo + '</h3><p class="text-gray-400 text-xs">' + d.items.length + ' produtos monitorados</p></div>' +
+      '<div class="card p-4"><h3 class="text-white font-display font-bold text-sm mb-3">Status do estoque</h3><div class="space-y-2.5">' + d.items.map(it => {
+        const pct = it.minimo > 0 ? Math.min(100, Math.round((it.atual / (it.mino * 2)) * 100)) : 0;
+        const [sc, sl] = relatorios_corStatus(it.status);
+        const barCor = it.status === 'critical' ? 'bg-red-500' : it.status === 'alert' ? 'bg-amber-500' : it.status === 'warning' ? 'bg-orange-500' : 'bg-marca-500';
+        return '<div onclick="relatorios_abrirDetalheEstoque(\'' + it.nome + '\',' + it.atual + ',' + it.minimo + ',\'' + it.status + '\')" class="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors cursor-pointer active:scale-[0.98]"><div class="flex-1 min-w-0"><div class="flex items-center justify-between mb-1"><span class="text-white text-sm font-medium truncate">' + it.nome + '</span><span class="' + sc + ' text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0">' + sl + '</span></div><div class="flex items-center gap-2"><div class="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden"><div class="h-full rounded-full ' + barCor + '" style="width:' + Math.max(5, pct) + '%"></div></div><span class="text-gray-400 text-xs flex-shrink-0 w-16 text-right">' + it.atual + '/' + it.minimo + ' min</span></div></div></div>';
+      }).join('') + '</div></div>';
+  }
+
+  function relatorios_barrasSimples(dados, labels, mx) {
+    const maxV = mx || Math.max.apply(null, dados) || 1;
+    const w = (100 / dados.length);
+    return '<div class="flex items-end gap-1 h-32">' + dados.map((v, i) => {
+      const h = Math.max(4, (v / maxV) * 100);
+      return '<div class="flex-1 flex flex-col items-center gap-1"><div class="w-full bg-marca-500 rounded-t-md transition-all duration-500 hover:bg-marca-400" style="height:' + h + '%"></div><span class="text-gray-500 text-[9px]">' + (labels ? labels[i] : '') + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function relatorios_barrasFluxo(dados, labels, mx) {
+    const maxV = mx || Math.max.apply(null, dados) || 1;
+    const w = (100 / dados.length);
+    return '<div class="flex items-end gap-1 h-36 relative"><div class="absolute inset-0 flex flex-col justify-between pointer-events-none"><span class="text-gray-500 text-[10px]">R$10k</span><span class="text-gray-500 text-[10px]">R$5k</span><span class="text-gray-500 text-[10px]">R$0</span></div>' + dados.map((v, i) => {
+      const h = Math.max(4, (v / maxV) * 100);
+      const isMax = v === Math.max.apply(null, dados);
+      return '<div class="flex-1 flex flex-col items-center gap-1 relative z-10"><div class="w-full rounded-t-md transition-all duration-500 ' + (isMax ? 'bg-marca-400' : 'bg-marca-500/70 hover:bg-marca-500') + '" style="height:' + h + '%"></div><span class="text-gray-500 text-[9px]">' + (labels ? labels[i] : '') + '</span></div>';
+    }).join('') + '</div>';
+  }
+
+  function relatorios_abrirDetalheMembro(nome, vendas, comissao, status, nota) {
+    const ini = nome.split(' ').map(w => w[0]).join('').substring(0,2).toUpperCase();
+    const colors = ['bg-marca-500','bg-blue-500','bg-amber-500','bg-purple-500'];
+    const ci = Math.abs(nome.split('').reduce((a,c) => a + c.charCodeAt(0), 0)) % 4;
+    const s = status === 'online' ? '<span class="inline-flex items-center gap-1 text-marca-400 text-sm font-medium"><span class="w-2 h-2 rounded-full bg-marca-400 animate-pulse"></span>Online</span>' : '<span class="inline-flex items-center gap-1 text-gray-400 text-sm font-medium"><span class="w-2 h-2 rounded-full bg-gray-500"></span>Ausente</span>';
+    const starColor = nota >= 4.5 ? 'text-yellow-400' : 'text-amber-400';
+    abrirModal('<div class="space-y-5"><div class="flex items-center gap-4"><div class="w-14 h-14 rounded-full ' + colors[ci] + ' flex items-center justify-center text-white text-xl font-bold">' + ini + '</div><div><h3 class="text-white font-display font-bold text-lg">' + nome + '</h3><div class="mt-0.5">' + s + '</div></div></div><div class="grid grid-cols-3 gap-3"><div class="bg-white/5 rounded-xl p-3 text-center"><p class="text-white font-bold text-lg">' + vendas + '</p><p class="text-gray-400 text-xs mt-0.5">Vendas</p></div><div class="bg-white/5 rounded-xl p-3 text-center"><p class="text-marca-400 font-bold text-lg">' + brl(comissao) + '</p><p class="text-gray-400 text-xs mt-0.5">Comissão</p></div><div class="bg-white/5 rounded-xl p-3 text-center"><p class="text-yellow-400 font-bold text-lg flex items-center justify-center gap-1">★ ' + nota.toFixed(1) + '</p><p class="text-gray-400 text-xs mt-0.5">Avaliação</p></div></div></div>', 'Detalhes do Membro');
+  }
+
+  function relatorios_abrirDetalheEstoque(nome, atual, minimo, status) {
+    const pct = minimo > 0 ? Math.round((atual / minimo) * 100) : 0;
+    const [sc, sl] = relatorios_corStatus(status);
+    abrirModal('<div class="space-y-4"><div><h3 class="text-white font-display font-bold text-lg">' + nome + '</h3></div><div class="grid grid-cols-3 gap-3"><div class="bg-white/5 rounded-xl p-3 text-center"><p class="text-white font-bold text-lg">' + atual + '</p><p class="text-gray-400 text-xs mt-0.5">Em estoque</p></div><div class="bg-white/5 rounded-xl p-3 text-center"><p class="text-white font-bold text-lg">' + minimo + '</p><p class="text-gray-400 text-xs mt-0.5">Mínimo</p></div><div class="bg-white/5 rounded-xl p-3 text-center"><span class="' + sc + ' text-sm font-bold px-2 py-1 rounded-full inline-block">' + sl + '</span></div></div><div class="bg-white/5 rounded-xl p-3"><div class="flex items-center justify-between mb-2"><span class="text-gray-400 text-xs">Nível de estoque</span><span class="text-gray-400 text-xs">' + pct + '%</span></div><div class="h-3 bg-white/5 rounded-full overflow-hidden"><div class="h-full rounded-full ' + (status === 'critical' ? 'bg-red-500' : status === 'alert' ? 'bg-amber-500' : status === 'warning' ? 'bg-orange-500' : 'bg-marca-500') + ' transition-all duration-500" style="width:' + Math.max(5, pct) + '%"></div></div></div><button onclick="relatorios_repEstoque(\'' + nome + '\'); fecharModal();" class="w-full bg-marca-500 hover:bg-marca-400 text-white font-semibold py-3 rounded-xl transition-all duration-200 active:scale-95">Repor Estoque</button></div>', 'Detalhe do Estoque');
+  }
+
+  function relatorios_repEstoque(nome) {
+    toast('Solicitação de reposição enviada para ' + nome, 'ok');
+  }
+
+  function relatorios_exportar(formato) {
+    if (formato === 'pdf') {
+      toast('Gerando PDF do relatório de ' + relatorios_aba + '...', 'info');
+    } else {
+      toast('Exportando CSV do relatório de ' + relatorios_aba + '...', 'info');
+    }
+  }
+
+  function relatorios_anims() {
+    setTimeout(() => { document.querySelectorAll('#relatorios-body > *').forEach((el, i) => { el.style.opacity = '0'; el.style.transform = 'translateY(12px)'; el.style.transition = 'all 0.3s ease'; setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, i * 60); }); }, 50);
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const t = document.querySelector('[data-tela="relatorios"]');
+    if (t) { t.addEventListener('transitionend', function() { if (!t.classList.contains('hidden')) relatorios_renderizar(); }); }
+  });
+  </script>
+
     <!-- TELAS -->
 
     </div>
