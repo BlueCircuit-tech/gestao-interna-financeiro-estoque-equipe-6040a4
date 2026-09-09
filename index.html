@@ -420,7 +420,345 @@
     <!-- Conteúdo principal -->
     <div class="app-container" id="app-container">
 
-      <!-- TELAS -->
+      <section data-tela="painel-principal" class="hidden">
+      <div class="h-screen flex flex-col overflow-hidden">
+
+        <!-- Cabeçalho -->
+        <header class="flex-shrink-0 flex items-center justify-between px-5 py-3" style="background:#14532D;">
+          <div>
+            <p class="text-xs mb-0.5" style="color:#86EFAC;">Bom dia,</p>
+            <h1 class="text-white font-display text-lg font-bold leading-tight">Carlos Oliveira</h1>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <button id="btn-notificacoes" onclick="painel_principal_abrirNotificacoes()"
+                    class="relative p-2 rounded-xl active:scale-90 transition-transform"
+                    style="background:rgba(255,255,255,0.1);" aria-label="Notificações">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+              </svg>
+              <span id="notif-badge" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2" style="border-color:#14532D;">2</span>
+            </button>
+            <button onclick="mostrarTela('administracao')" class="active:scale-90 transition-transform" aria-label="Menu">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold text-white" style="background:linear-gradient(135deg,#22C55E,#16A34A);">CO</div>
+            </button>
+          </div>
+        </header>
+
+        <!-- Conteúdo com scroll -->
+        <div class="flex-1 overflow-y-auto pb-4" style="scrollbar-width:thin;scrollbar-color:#22C55E30 transparent;">
+
+          <!-- Cards resumidos -->
+          <div class="grid grid-cols-2 gap-2.5 px-4 mt-3.5">
+            <button onclick="mostrarTela('abrir-caixa')"
+                    class="card active:scale-95 transition-all text-left p-3.5 rounded-2xl" style="background:#22C55E;">
+              <div class="flex items-center gap-1.5 mb-2">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span class="text-[11px] font-semibold text-white/80">Saldo do Dia</span>
+              </div>
+              <p class="font-display text-xl font-bold text-white leading-none">R$ 4.820</p>
+              <p class="text-[10px] text-white/70 mt-1">+12% vs ontem</p>
+            </button>
+            <button onclick="mostrarTela('registrar-venda')"
+                    class="card active:scale-95 transition-all text-left p-3.5 rounded-2xl bg-white">
+              <div class="flex items-center gap-1.5 mb-2">
+                <svg class="w-4 h-4" style="color:#14532D;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                </svg>
+                <span class="text-[11px] font-semibold text-gray-500">Vendas Hoje</span>
+              </div>
+              <p class="font-display text-xl font-bold leading-none" style="color:#14532D;">23 <span class="text-sm font-normal text-gray-400">un.</span></p>
+              <p class="text-[10px] text-gray-400 mt-1">Meta: 30/dia</p>
+            </button>
+            <button onclick="mostrarTela('estoque')"
+                    class="card active:scale-95 transition-all text-left p-3.5 rounded-2xl bg-white">
+              <div class="flex items-center gap-1.5 mb-2">
+                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+                </svg>
+                <span class="text-[11px] font-semibold text-gray-500">Estoque Baixo</span>
+              </div>
+              <p class="font-display text-xl font-bold leading-none text-amber-600">3 <span class="text-sm font-normal text-gray-400">itens</span></p>
+              <p class="text-[10px] text-amber-500 mt-1">Requer atenção</p>
+            </button>
+            <button onclick="mostrarTela('equipe')"
+                    class="card active:scale-95 transition-all text-left p-3.5 rounded-2xl bg-white">
+              <div class="flex items-center gap-1.5 mb-2">
+                <svg class="w-4 h-4" style="color:#22C55E;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.4-5.147 4.125 4.125 0 00-3.4 5.147 9.337 9.337 0 00-4.121-.952 9.38 9.38 0 00-2.625.372m5.714 0a30.067 30.067 0 00-2.625-.372M9 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span class="text-[11px] font-semibold text-gray-500">Equipe Online</span>
+              </div>
+              <p class="font-display text-xl font-bold leading-none" style="color:#14532D;">7 <span class="text-sm font-normal text-gray-400">colab.</span></p>
+              <p class="text-[10px] text-gray-400 mt-1">de 10 no total</p>
+            </button>
+          </div>
+
+          <!-- Gráfico de Receita -->
+          <div class="px-4 mt-5">
+            <div class="card rounded-2xl bg-white p-4">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h2 class="font-display font-bold text-gray-900 text-sm">Receita dos Últimos 7 Dias</h2>
+                  <p class="text-[11px] text-gray-400 mt-0.5">Receita total: R$ 28.450,00</p>
+                </div>
+                <div class="flex items-center gap-1 text-[11px] font-semibold" style="color:#14532D;background:#F0FDF4;" class="px-2 py-1 rounded-lg">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.009l2.74-1.22"/>
+                  </svg>
+                  +8,2%
+                </div>
+              </div>
+              <div class="relative">
+                <svg id="grafico-receita" viewBox="0 0 320 150" class="w-full" style="height:140px;">
+                  <defs>
+                    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#22C55E" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <line x1="35" y1="0" x2="35" y2="140" stroke="#F0FDF4" stroke-width="1.5"/>
+                  <line x1="91" y1="0" x2="91" y2="140" stroke="#F0FDF4" stroke-width="0.8" stroke-dasharray="3,3"/>
+                  <line x1="147" y1="0" x2="147" y2="140" stroke="#F0FDF4" stroke-width="0.8" stroke-dasharray="3,3"/>
+                  <line x1="203" y1="0" x2="203" y2="140" stroke="#F0FDF4" stroke-width="0.8" stroke-dasharray="3,3"/>
+                  <line x1="259" y1="0" x2="259" y2="140" stroke="#F0FDF4" stroke-width="0.8" stroke-dasharray="3,3"/>
+                  <line x1="315" y1="0" x2="315" y2="140" stroke="#F0FDF4" stroke-width="1.5"/>
+                  <line x1="35" y1="140" x2="315" y2="140" stroke="#F0FDF4" stroke-width="1.5"/>
+                  <text x="28" y="10" fill="#9CA3AF" font-size="9">R$6k</text>
+                  <text x="25" y="55" fill="#9CA3AF" font-size="9">R$4k</text>
+                  <text x="25" y="100" fill="#9CA3AF" font-size="9">R$2k</text>
+                  <text x="33" y="143" fill="#9CA3AF" font-size="9">R$0</text>
+                  <text x="24" y="155" fill="#9CA3AF" font-size="8">Seg</text>
+                  <text x="79" y="155" fill="#9CA3AF" font-size="8">Ter</text>
+                  <text x="135" y="155" fill="#9CA3AF" font-size="8">Qua</text>
+                  <text x="191" y="155" fill="#9CA3AF" font-size="8">Qui</text>
+                  <text x="246" y="155" fill="#9CA3AF" font-size="8">Sex</text>
+                  <text x="285" y="155" fill="#9CA3AF" font-size="8">Sáb</text>
+                  <text x="304" y="155" fill="#9CA3AF" font-size="8">Dom</text>
+                  <path d="M35,118 L91,95 L147,102 L203,68 L259,72 L315,32" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M35,118 L91,95 L147,102 L203,68 L259,72 L315,32 L315,140 L35,140 Z" fill="url(#areaGrad)"/>
+                  <circle cx="35" cy="118" r="4" fill="white" stroke="#22C55E" stroke-width="2"/>
+                  <circle cx="91" cy="95" r="4" fill="white" stroke="#22C55E" stroke-width="2"/>
+                  <circle cx="147" cy="102" r="4" fill="white" stroke="#22C55E" stroke-width="2"/>
+                  <circle cx="203" cy="68" r="4" fill="white" stroke="#22C55E" stroke-width="2"/>
+                  <circle cx="259" cy="72" r="4" fill="white" stroke="#22C55E" stroke-width="2"/>
+                  <circle cx="315" cy="32" r="5" fill="#22C55E" stroke="white" stroke-width="2.5" filter="url(#glow)"/>
+                  <rect class="chart-tooltip" x="282" y="14" width="50" height="20" rx="4" fill="#14532D" opacity="0"/>
+                  <text class="chart-tooltip" x="307" y="28" text-anchor="middle" fill="white" font-size="10" font-weight="bold" opacity="0">R$ 5.4k</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Últimas Transações -->
+          <div class="px-4 mt-5">
+            <div class="flex items-center justify-between mb-2.5">
+              <h2 class="font-display font-bold text-gray-900 text-sm">Últimas Transações</h2>
+              <button onclick="mostrarTela('relatorios')" class="text-[11px] font-semibold transition-colors hover:opacity-80" style="color:#14532D;">Ver todas</button>
+            </div>
+            <div id="lista-transacoes" class="space-y-2"></div>
+          </div>
+
+          <!-- Alertas -->
+          <div class="px-4 mt-5">
+            <div class="flex items-center justify-between mb-2.5">
+              <h2 class="font-display font-bold text-gray-900 text-sm">Alertas</h2>
+              <span class="text-[11px] text-gray-400">2 pendentes</span>
+            </div>
+            <div class="space-y-2" id="lista-alertas"></div>
+          </div>
+
+          <div class="h-5"></div>
+        </div>
+
+        <!-- Menu Inferior -->
+        <nav class="flex-shrink-0 flex items-center justify-around px-2 py-1.5 bg-white border-t" style="border-color:#F0FDF4;box-shadow:0 -2px 12px rgba(20,83,45,0.08);">
+          <button onclick="mostrarTela('painel-principal')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all" style="color:#14532D;">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+            </svg>
+            <span class="text-[10px] font-semibold">Início</span>
+          </button>
+          <button onclick="mostrarTela('abrir-caixa')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 012.25-2.25h-1.5"/>
+            </svg>
+            <span class="text-[10px] font-medium">Caixa</span>
+          </button>
+          <button onclick="mostrarTela('registrar-venda')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <span class="text-[10px] font-medium">Vendas</span>
+          </button>
+          <button onclick="mostrarTela('estoque')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
+            </svg>
+            <span class="text-[10px] font-medium">Estoque</span>
+          </button>
+          <button onclick="mostrarTela('financeiro')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
+            </svg>
+            <span class="text-[10px] font-medium">Financeiro</span>
+          </button>
+          <button onclick="mostrarTela('equipe')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.4-5.147 4.125 4.125 0 00-3.4 5.147 9.337 9.337 0 00-4.121-.952 9.38 9.38 0 00-2.625.372m5.714 0a30.067 30.067 0 00-2.625-.372M9 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span class="text-[10px] font-medium">Equipe</span>
+          </button>
+          <button onclick="mostrarTela('relatorios')" class="flex flex-col items-center gap-0.5 py-1 px-2.5 rounded-xl active:scale-90 transition-all text-gray-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-2.25A1.125 1.125 0 013 15.375v-2.25zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125v-8.25zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/>
+            </svg>
+            <span class="text-[10px] font-medium">Relatórios</span>
+          </button>
+        </nav>
+      </div>
+
+      <script>
+      const painel_principal_transacoes = [
+        {id:1, data:'2025-07-14T14:32:00', tipo:'venda', desc:'Venda #1247 - Matheus Lima', valor:47.80, pagto:'PIX', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'},
+        {id:2, data:'2025-07-14T14:18:00', tipo:'pagto', desc:'Pagto Fornecedor - Papelaria Sul', valor:-1200.00, pagto:'TED', status:'concluida', cor:'#EF4444', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>'},
+        {id:3, data:'2025-07-14T13:45:00', tipo:'venda', desc:'Venda #1246 - Lucas Mendes', valor:189.90, pagto:'Crédito', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'},
+        {id:4, data:'2025-07-14T12:30:00', tipo:'venda', desc:'Venda #1245 - Ana Silva', valor:12.50, pagto:'Débito', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'},
+        {id:5, data:'2025-07-14T11:15:00', tipo:'venda', desc:'Venda #1244 - Pedro Costa', valor:234.00, pagto:'PIX', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'},
+        {id:6, data:'2025-07-14T10:05:00', tipo:'pagto', desc:'Conta de Luz - Enel', valor:-385.90, pagto:'Boleto', status:'concluida', cor:'#EF4444', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>'},
+        {id:7, data:'2025-07-14T09:00:00', tipo:'venda', desc:'Venda #1243 - Mariana R.', valor:56.00, pagto:'Dinheiro', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'},
+        {id:8, data:'2025-07-13T18:45:00', tipo:'venda', desc:'Venda #1242 - João Pedro', valor:312.50, pagto:'Crédito', status:'concluida', cor:'#22C55E', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>'}
+      ];
+
+      const painel_principal_alertas = [
+        {id:1, tipo:'estoque', msg:'3 itens com estoque abaixo do mínimo', acao:'Ver Estoque', destino:'estoque', cor:'#F59E0B', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>'},
+        {id:2, tipo:'financeiro', msg:'2 contas a pagar vencem amanhã', acao:'Ver Financeiro', destino:'financeiro', cor:'#EF4444', icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>'}
+      ];
+
+      function painel_principal_inicializar() {
+        const cont = document.getElementById('lista-transacoes');
+        if (!cont) return;
+        cont.innerHTML = painel_principal_transacoes.map(t => {
+          const d = new Date(t.data);
+          const hora = String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+          const sinal = t.valor >= 0 ? '+' : '';
+          const cls = t.valor >= 0 ? 'text-green-600' : 'text-red-500';
+          const bgBadge = t.status === 'concluida' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700';
+          const statusTxt = t.status === 'concluida' ? 'Concluída' : 'Pendente';
+          return '<div class="card rounded-xl bg-white p-3 cursor-pointer hover:shadow-md transition-all flex items-center gap-3 trans-item" data-id="'+t.id+'">'+
+            '<div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:'+t.cor+'15;">'+
+              '<svg class="w-4 h-4" style="color:'+t.cor+';" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">'+t.icone+'</svg>'+
+            '</div>'+
+            '<div class="flex-1 min-w-0">'+
+              '<p class="text-xs font-semibold text-gray-800 truncate">'+t.desc+'</p>'+
+              '<p class="text-[10px] text-gray-400 mt-0.5">'+t.pagto+' · '+hora+'</p>'+
+            '</div>'+
+            '<div class="text-right flex-shrink-0">'+
+              '<p class="text-xs font-bold '+cls+'">'+sinal+'R$ '+Math.abs(t.valor).toFixed(2).replace('.',',')+'</p>'+
+              '<span class="inline-block mt-0.5 text-[9px] font-bold px-1.5 py-0.5 rounded-full '+bgBadge+'">'+statusTxt+'</span>'+
+            '</div>'+
+          '</div>';
+        }).join('');
+        cont.querySelectorAll('.trans-item').forEach(el => {
+          el.addEventListener('click', function() {
+            const id = parseInt(this.dataset.id);
+            const t = painel_principal_transacoes.find(x => x.id === id);
+            if (!t) return;
+            const d = new Date(t.data);
+            const sinal = t.valor >= 0 ? '+' : '';
+            const cls = t.valor >= 0 ? 'text-green-600' : 'text-red-500';
+            abrirModal(
+              '<div class="space-y-3">'+
+                '<div class="flex items-center gap-3">'+
+                  '<div class="w-11 h-11 rounded-xl flex items-center justify-center" style="background:'+t.cor+'15;">'+
+                    '<svg class="w-6 h-6" style="color:'+t.cor+';" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">'+t.icone+'</svg>'+
+                  '</div>'+
+                  '<div><p class="text-sm font-semibold text-gray-900">'+t.desc+'</p><p class="text-xs text-gray-400">ID #'+String(id).padStart(6,'0')+'</p></div>'+
+                '</div>'+
+                '<div class="bg-gray-50 rounded-xl p-3 space-y-2">'+
+                  '<div class="flex justify-between text-xs"><span class="text-gray-500">Valor</span><span class="font-bold '+cls+'">'+sinal+'R$ '+Math.abs(t.valor).toFixed(2).replace('.',',')+'</span></div>'+
+                  '<div class="flex justify-between text-xs"><span class="text-gray-500">Pagamento</span><span class="font-medium text-gray-700">'+t.pagto+'</span></div>'+
+                  '<div class="flex justify-between text-xs"><span class="text-gray-500">Data</span><span class="font-medium text-gray-700">'+dataBR(t.data)+'</span></div>'+
+                  '<div class="flex justify-between text-xs"><span class="text-gray-500">Status</span><span class="font-medium capitalize">'+t.status+'</span></div>'+
+                '</div>'+
+                '<div class="flex gap-2 pt-1">'+
+                  (t.tipo==='venda'?'<button onclick="mostrarTela(\'registrar-venda\');fecharModal();" class="flex-1 py-2.5 rounded-xl text-white text-xs font-semibold active:scale-95 transition-transform" style="background:#14532D;">Nova Venda</button>':'')+
+                  (t.tipo==='pagto'?'<button onclick="mostrarTela(\'financeiro\');fecharModal();" class="flex-1 py-2.5 rounded-xl text-white text-xs font-semibold active:scale-95 transition-transform" style="background:#14532D;">Ver Financeiro</button>':'')+
+                  '<button onclick="fecharModal()" class="flex-1 py-2.5 rounded-xl text-xs font-semibold border active:scale-95 transition-transform" style="color:#14532D;border-color:#14532D;">Fechar</button>'+
+                '</div>'+
+              '</div>',
+              'Detalhe da Transação'
+            );
+          });
+        });
+        const ac = document.getElementById('lista-alertas');
+        if (!ac) return;
+        ac.innerHTML = painel_principal_alertas.map(a =>
+          '<div class="flex items-center gap-3 p-3 rounded-xl border-l-4 cursor-pointer hover:bg-gray-50 transition-colors alert-item" style="border-color:'+a.cor+';background:'+a.cor+'08;" data-dest="'+a.destino+'">'+
+            '<div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style="background:'+a.cor+'20;">'+
+              '<svg class="w-5 h-5" style="color:'+a.cor+';" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">'+a.icone+'</svg>'+
+            '</div>'+
+            '<p class="flex-1 text-xs font-medium text-gray-700 leading-snug">'+a.msg+'</p>'+
+            '<svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>'+
+          '</div>'
+        ).join('');
+        ac.querySelectorAll('.alert-item').forEach(el => {
+          el.addEventListener('click', function() { mostrarTela(this.dataset.dest); });
+        });
+      }
+
+      function painel_principal_abrirNotificacoes() {
+        const notifs = [
+          {t:'Estoque', m:'Caneta Esferográfica BIC abaixo do estoque mínimo (2 un.)', h:'há 15 min', lida:false, icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>'},
+          {t:'Financeiro', m:'2 contas a pagar vencem amanhã: Enel R$ 385,90 | Aluguel R$ 2.800,00', h:'há 1h', lida:false, icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+          {t:'Vendas', m:'Meta do dia atingida em 76% (23 de 30 vendas)', h:'há 2h', lida:true, icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>'},
+          {t:'Equipe', m:'Carlos Eduardo iniciou o turno às 08:00', h:'há 3h', lida:true, icone:'<path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.4-5.147 4.125 4.125 0 00-3.4 5.147 9.337 9.337 0 00-4.121-.952 9.38 9.38 0 00-2.625.372m5.714 0a30.067 30.067 0 00-2.625-.372M9 12a3 3 0 11-6 0 3 3 0 016 0z"/>'}
+        ];
+        document.getElementById('notif-badge').style.display = 'none';
+        abrirModal(
+          '<div class="space-y-3">'+
+            notifs.map(n => {
+              const bg = n.lida ? 'bg-gray-50' : 'bg-white';
+              const brd = n.lida ? 'border-gray-100' : 'border-l-4';
+              const brdColor = n.lida ? '' : 'border-l-amber-400';
+              return '<div class="'+bg+' '+brd+' '+brdColor+' rounded-xl p-3.5 flex items-start gap-3 border border-gray-100">'+
+                '<div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:#F0FDF4;">'+
+                  '<svg class="w-4 h-4" style="color:#14532D;" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">'+n.icone+'</svg>'+
+                '</div>'+
+                '<div class="flex-1">'+
+                  '<p class="text-xs font-bold '+(!n.lida?'text-gray-900':'text-gray-500')+'">'+n.t+'</p>'+
+                  '<p class="text-xs text-gray-600 mt-1 leading-snug">'+n.m+'</p>'+
+                  '<p class="text-[10px] text-gray-400 mt-1.5">'+n.h+'</p>'+
+                '</div>'+
+                (!n.lida?'<span class="w-2 h-2 rounded-full flex-shrink-0 mt-1.5" style="background:#22C55E;"></span>':'')+
+              '</div>';
+            }).join('')+
+            '<button onclick="fecharModal()" class="w-full py-2.5 rounded-xl text-sm font-semibold border active:scale-95 transition-transform" style="color:#14532D;border-color:#D1FAE5;background:#F0FDF4;">Fechar</button>'+
+          '</div>',
+          'Notificações'
+        );
+      }
+
+      function painel_principal_atualizar() {
+        const stockEl = document.querySelector('[onclick="mostrarTela(\'estoque\')"] .text-xl');
+        if (stockEl) stockEl.innerHTML = '3 <span class="text-sm font-normal text-gray-400">itens</span>';
+        const teamEl = document.querySelectorAll('.grid .card')[3].querySelector('.text-xl');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', painel_principal_inicializar);
+      } else {
+        painel_principal_inicializar();
+      }
+      </script>
+    </section>
+
+    <!-- TELAS -->
 
     </div>
 
