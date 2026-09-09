@@ -1143,6 +1143,461 @@
   </script>
 </section>
 
+    <section data-tela="registrar-venda" class="hidden">
+    <div class="px-4 pt-3 pb-2 flex items-center justify-between">
+        <div>
+            <h2 class="font-display text-xl font-bold text-cinza-900 leading-tight">Nova Venda</h2>
+            <p class="text-sm text-cinza-500 mt-0.5">Caixa #3 &bull; Turno da tarde</p>
+        </div>
+        <button onclick="mostrarTela('abrir-caixa')" class="flex items-center gap-1.5 text-xs font-medium text-marca-700 bg-marca-50 px-3 py-1.5 rounded-full">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+            Fechar Caixa
+        </button>
+    </div>
+
+    <div class="px-4 mb-3">
+        <div class="relative">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-cinza-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="rv-busca" placeholder="Buscar produto ou código de barras..." oninput="registrar_venda_buscar(this.value)" class="w-full pl-9 pr-10 py-2.5 bg-white border border-cinza-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-marca-500 focus:border-transparent font-body transition-shadow" />
+            <button onclick="document.getElementById('rv-busca').value='';registrar_venda_buscar('')" class="absolute right-3 top-1/2 -translate-y-1/2 text-cinza-400 hover:text-cinza-600 hidden" id="rv-limpa-busca">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="px-4 mb-2 flex gap-2 overflow-x-auto pb-1 scrollbar-hide" id="rv-categorias">
+        <button onclick="registrar_venda_filtrarCat('todas')" data-cat="todas" class="rv-cat-btn active-cat shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Todos</button>
+        <button onclick="registrar_venda_filtrarCat('bebidas')" data-cat="bebidas" class="rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Bebidas</button>
+        <button onclick="registrar_venda_filtrarCat('lanches')" data-cat="lanches" class="rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Lanches</button>
+        <button onclick="registrar_venda_filtrarCat('sobremesas')" data-cat="sobremesas" class="rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Sobremesas</button>
+        <button onclick="registrar_venda_filtrarCat('combos')" data-cat="combos" class="rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all">Combos</button>
+    </div>
+
+    <div id="rv-produtos-container" class="px-4 pb-24">
+        <div id="rv-produtos-grid" class="grid grid-cols-2 gap-3"></div>
+        <div id="rv-vazio" class="hidden text-center py-10">
+            <svg class="w-12 h-12 text-cinza-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <p class="text-sm text-cinza-500">Nenhum produto encontrado</p>
+            <p class="text-xs text-cinza-400 mt-1">Tente outro nome ou código</p>
+        </div>
+    </div>
+
+    <div id="rv-carrinho-sheet" class="fixed inset-0 z-50 hidden" onclick="if(event.target===this)registrar_venda_fecharCarrinho()">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <div id="rv-carrinho-panel" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl max-h-[82vh] flex flex-col transform translate-y-full transition-transform duration-300 ease-out">
+            <div class="flex items-center justify-between p-4 border-b border-cinza-100 shrink-0">
+                <div class="flex items-center gap-2">
+                    <h3 class="font-display text-lg font-bold text-cinza-900">Carrinho</h3>
+                    <span id="rv-cart-count" class="bg-marca-100 text-marca-700 text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+                </div>
+                <button onclick="registrar_venda_fecharCarrinho()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-cinza-100 transition-colors">
+                    <svg class="w-5 h-5 text-cinza-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div id="rv-cart-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+            <div id="rv-cart-vazio" class="flex-1 flex flex-col items-center justify-center p-8 hidden">
+                <svg class="w-16 h-16 text-cinza-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                <p class="text-sm text-cinza-500 text-center">Carrinho vazio<br><span class="text-xs text-cinza-400">Adicione produtos para começar</span></p>
+            </div>
+            <div id="rv-cart-footer" class="p-4 border-t border-cinza-100 bg-cinza-50/50 space-y-3 shrink-0">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-cinza-600">Desconto</span>
+                    <div class="flex items-center gap-1">
+                        <span class="text-sm text-cinza-500">R$</span>
+                        <input type="number" id="rv-desconto" value="0" min="0" step="0.01" oninput="registrar_venda_atualizarTotais()" class="w-20 text-right text-sm font-semibold text-cinza-900 bg-white border border-cinza-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-marca-500" />
+                    </div>
+                </div>
+                <div class="flex items-center justify-between pt-2 border-t border-cinza-200">
+                    <span class="font-semibold text-cinza-900">Total</span>
+                    <span id="rv-total-final" class="text-xl font-bold text-marca-700 font-display">R$ 0,00</span>
+                </div>
+                <button onclick="registrar_venda_finalizar()" id="rv-btn-finalizar" class="w-full bg-marca-700 hover:bg-marca-800 active:bg-marca-900 text-white font-bold py-3.5 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 text-sm disabled:opacity-40 disabled:active:scale-100" disabled>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                    Finalizar Venda
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 z-40 p-4 bg-gradient-to-t from-white via-white to-transparent pt-8">
+        <div class="max-w-[430px] mx-auto flex gap-3">
+            <button onclick="registrar_venda_abrirCarrinho()" id="rv-fab-carrinho" class="relative flex-1 bg-white border-2 border-cinza-200 hover:border-marca-400 text-cinza-700 font-semibold py-3.5 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 text-sm shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                Carrinho
+                <span id="rv-fab-count" class="bg-marca-700 text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-[22px] text-center hidden">0</span>
+            </button>
+            <button onclick="registrar_venda_finalizar()" id="rv-fab-finalizar" class="flex-[2] bg-marca-700 hover:bg-marca-800 active:bg-marca-900 text-white font-bold py-3.5 rounded-xl transition-all active:scale-[0.97] flex items-center justify-center gap-2 text-sm disabled:opacity-40 disabled:active:scale-100 shadow-lg shadow-marca-700/20" disabled>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                Finalizar
+                <span id="rv-fab-total" class="bg-white/20 px-2 py-0.5 rounded-lg text-xs">R$ 0,00</span>
+            </button>
+        </div>
+    </div>
+</section>
+
+<script>
+(function() {
+    const produtos = [
+        { id: 1, nome: 'X-Burger Clássico', preco: 18.90, cat: 'lanches', cor: '#14532D', ini: 'XB' },
+        { id: 2, nome: 'X-Bacon Supremo', preco: 24.90, cat: 'lanches', cor: '#92400E', ini: 'XS' },
+        { id: 3, nome: 'X-Salada Duplo', preco: 22.50, cat: 'lanches', cor: '#14532D', ini: 'XD' },
+        { id: 4, nome: 'X-Tudo Família', preco: 38.90, cat: 'lanches', cor: '#92400E', ini: 'XF' },
+        { id: 5, nome: 'Cheese Burger', preco: 16.90, cat: 'lanches', cor: '#14532D', ini: 'CB' },
+        { id: 6, nome: 'Coca-Cola Lata', preco: 6.00, cat: 'bebidas', cor: '#DC2626', ini: 'CC' },
+        { id: 7, nome: 'Coca-Cola 2L', preco: 14.90, cat: 'bebidas', cor: '#DC2626', ini: 'C2' },
+        { id: 8, nome: 'Suco Natural 500ml', preco: 9.90, cat: 'bebidas', cor: '#EA580C', ini: 'SN' },
+        { id: 9, nome: 'Água Mineral 500ml', preco: 3.50, cat: 'bebidas', cor: '#3B82F6', ini: 'ÁG' },
+        { id: 10, nome: 'Milkshake Morango', preco: 16.90, cat: 'sobremesas', cor: '#EC4899', ini: 'MS' },
+        { id: 11, nome: 'Sorvete 2 bolas', preco: 12.90, cat: 'sobremesas', cor: '#8B5CF6', ini: 'S2' },
+        { id: 12, nome: 'Brownie c/ Sorvete', preco: 18.90, cat: 'sobremesas', cor: '#92400E', ini: 'BS' },
+        { id: 13, nome: 'Combo XB + Refri', preco: 22.90, cat: 'combos', cor: '#14532D', ini: 'C1' },
+        { id: 14, nome: 'Combo Família 4x', preco: 89.90, cat: 'combos', cor: '#16A34A', ini: 'C4' },
+        { id: 15, nome: 'Combo Duplo + Fritas', preco: 34.90, cat: 'combos', cor: '#14532D', ini: 'CD' },
+    ];
+
+    let carrinho = [];
+    let filtroCat = 'todas';
+    let filtroBusca = '';
+
+    window.registrar_venda_render = function() {
+        const grid = document.getElementById('rv-produtos-grid');
+        const vazio = document.getElementById('rv-vazio');
+        let lista = produtos;
+        if (filtroCat !== 'todas') lista = lista.filter(p => p.cat === filtroCat);
+        if (filtroBusca) {
+            const q = filtroBusca.toLowerCase();
+            lista = lista.filter(p => p.nome.toLowerCase().includes(q) || String(p.id).includes(q));
+        }
+        if (!lista.length) {
+            grid.innerHTML = '';
+            vazio.classList.remove('hidden');
+            return;
+        }
+        vazio.classList.add('hidden');
+        grid.innerHTML = lista.map(p => {
+            const noCarrinho = carrinho.find(c => c.id === p.id);
+            const qtd = noCarrinho ? noCarrinho.qtd : 0;
+            return '<div class="bg-white rounded-xl border border-cinza-100 overflow-hidden shadow-sm hover:shadow-md hover:border-marca-200 transition-all active:scale-[0.97] cursor-pointer group" onclick="registrar_venda_adicionar(' + p.id + ')">' +
+                '<div class="h-[72px] flex items-center justify-center relative" style="background:' + p.cor + '15">' +
+                    '<div class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-md" style="background:' + p.cor + '">' + p.ini + '</div>' +
+                    (qtd > 0 ? '<span class="absolute top-2 right-2 bg-marca-700 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">' + qtd + '</span>' : '') +
+                '</div>' +
+                '<div class="p-2.5">' +
+                    '<p class="text-xs font-semibold text-cinza-800 leading-tight line-clamp-2 min-h-[2rem]">' + p.nome + '</p>' +
+                    '<p class="text-sm font-bold text-marca-700 mt-1">' + brl(p.preco) + '</p>' +
+                '</div>' +
+            '</div>';
+        }).join('');
+    };
+
+    window.registrar_venda_buscar = function(val) {
+        filtroBusca = val.trim();
+        const btn = document.getElementById('rv-limpa-busca');
+        btn.classList.toggle('hidden', !filtroBusca);
+        window.registrar_venda_render();
+    };
+
+    window.registrar_venda_filtrarCat = function(cat) {
+        filtroCat = cat;
+        document.querySelectorAll('.rv-cat-btn').forEach(b => {
+            const isActive = b.dataset.cat === cat;
+            b.className = 'rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ' + (isActive ? 'bg-marca-700 text-white shadow-md shadow-marca-700/20' : 'bg-cinza-100 text-cinza-600 hover:bg-cinza-200');
+        });
+        window.registrar_venda_render();
+    };
+
+    window.registrar_venda_adicionar = function(id) {
+        const p = produtos.find(x => x.id === id);
+        if (!p) return;
+        const existente = carrinho.find(c => c.id === id);
+        if (existente) existente.qtd++;
+        else carrinho.push({ id: p.id, nome: p.nome, preco: p.preco, qtd: 1, cor: p.cor, ini: p.ini });
+        window.registrar_venda_render();
+        window.registrar_venda_renderCart();
+        toast(p.nome + ' adicionado', 'ok');
+    };
+
+    window.registrar_venda_alterarQtd = function(id, delta) {
+        const c = carrinho.find(x => x.id === id);
+        if (!c) return;
+        c.qtd += delta;
+        if (c.qtd <= 0) carrinho = carrinho.filter(x => x.id !== id);
+        window.registrar_venda_render();
+        window.registrar_venda_renderCart();
+    };
+
+    window.registrar_venda_remover = function(id) {
+        const item = carrinho.find(c => c.id === id);
+        carrinho = carrinho.filter(x => x.id !== id);
+        window.registrar_venda_render();
+        window.registrar_venda_renderCart();
+        if (item) toast(item.nome + ' removido', 'info');
+    };
+
+    window.registrar_venda_renderCart = function() {
+        const itemsEl = document.getElementById('rv-cart-items');
+        const vazioEl = document.getElementById('rv-cart-vazio');
+        const countEl = document.getElementById('rv-cart-count');
+        const fabCount = document.getElementById('rv-fab-count');
+        const totalItens = carrinho.reduce((a, c) => a + c.qtd, 0);
+
+        countEl.textContent = totalItens;
+        if (totalItens > 0) { fabCount.textContent = totalItens; fabCount.classList.remove('hidden'); }
+        else fabCount.classList.add('hidden');
+
+        if (!carrinho.length) {
+            itemsEl.classList.add('hidden');
+            vazioEl.classList.remove('hidden');
+        } else {
+            itemsEl.classList.remove('hidden');
+            vazioEl.classList.add('hidden');
+            itemsEl.innerHTML = carrinho.map(c => '<div class="flex items-center gap-3 bg-cinza-50 rounded-xl p-3">' +
+                '<div class="w-10 h-10 rounded-lg flex items-center justify-center text-white text-xs font-bold shrink-0" style="background:' + c.cor + '">' + c.ini + '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                    '<p class="text-sm font-semibold text-cinza-800 truncate">' + c.nome + '</p>' +
+                    '<p class="text-xs text-cinza-500">' + brl(c.preco) + ' un</p>' +
+                '</div>' +
+                '<div class="flex items-center gap-1.5">' +
+                    '<button onclick="event.stopPropagation();registrar_venda_alterarQtd(' + c.id + ',-1)" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-cinza-200 text-cinza-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-colors active:scale-90"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4"/></svg></button>' +
+                    '<span class="text-sm font-bold text-cinza-900 w-6 text-center">' + c.qtd + '</span>' +
+                    '<button onclick="event.stopPropagation();registrar_venda_alterarQtd(' + c.id + ',1)" class="w-7 h-7 flex items-center justify-center rounded-lg bg-white border border-cinza-200 text-cinza-600 hover:bg-marca-50 hover:text-marca-700 hover:border-marca-200 transition-colors active:scale-90"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg></button>' +
+                '</div>' +
+                '<div class="text-right shrink-0 ml-1">' +
+                    '<p class="text-sm font-bold text-cinza-900">' + brl(c.preco * c.qtd) + '</p>' +
+                    '<button onclick="event.stopPropagation();registrar_venda_remover(' + c.id + ')" class="text-[10px] text-red-400 hover:text-red-600 transition-colors">Remover</button>' +
+                '</div>' +
+            '</div>').join('');
+        }
+        window.registrar_venda_atualizarTotais();
+    };
+
+    window.registrar_venda_atualizarTotais = function() {
+        const subtotal = carrinho.reduce((a, c) => a + c.preco * c.qtd, 0);
+        const desc = Math.min(parseFloat(document.getElementById('rv-desconto').value) || 0, subtotal);
+        const total = subtotal - desc;
+        document.getElementById('rv-total-final').textContent = brl(total);
+        document.getElementById('rv-fab-total').textContent = brl(total);
+        const hasItems = carrinho.length > 0;
+        document.getElementById('rv-btn-finalizar').disabled = !hasItems;
+        document.getElementById('rv-fab-finalizar').disabled = !hasItems;
+    };
+
+    window.registrar_venda_abrirCarrinho = function() {
+        const sheet = document.getElementById('rv-carrinho-sheet');
+        const panel = document.getElementById('rv-carrinho-panel');
+        sheet.classList.remove('hidden');
+        requestAnimationFrame(() => { panel.style.transform = 'translateY(0)'; });
+    };
+
+    window.registrar_venda_fecharCarrinho = function() {
+        const panel = document.getElementById('rv-carrinho-panel');
+        panel.style.transform = 'translateY(100%)';
+        setTimeout(() => { document.getElementById('rv-carrinho-sheet').classList.add('hidden'); }, 300);
+    };
+
+    window.registrar_venda_abrirPagamento = function() {
+        if (!carrinho.length) return;
+        window.registrar_venda_fecharCarrinho();
+        setTimeout(() => {
+            const subtotal = carrinho.reduce((a, c) => a + c.preco * c.qtd, 0);
+            const desc = Math.min(parseFloat(document.getElementById('rv-desconto').value) || 0, subtotal);
+            const total = subtotal - desc;
+            const html = '<div class="p-5 space-y-4">' +
+                '<div class="bg-marca-50 rounded-xl p-4 flex items-center justify-between">' +
+                    '<div><p class="text-xs text-marca-600 font-medium">Total da venda</p><p class="text-2xl font-bold text-marca-700 font-display">' + brl(total) + '</p></div>' +
+                    '<div class="w-12 h-12 bg-marca-100 rounded-full flex items-center justify-center"><svg class="w-6 h-6 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>' +
+                '</div>' +
+                '<div><label class="text-sm font-semibold text-cinza-700 mb-2 block">Forma de Pagamento</label><div class="grid grid-cols-3 gap-2">' +
+                    '<button onclick="registrar_venda_selPagto(this,' + total + ')" data-pagto="dinheiro" class="rv-pagto-btn rv-pagto-active flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-marca-500 bg-marca-50 transition-all">' +
+                        '<svg class="w-6 h-6 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>' +
+                        '<span class="text-xs font-semibold text-marca-700">Dinheiro</span>' +
+                    '</button>' +
+                    '<button onclick="registrar_venda_selPagto(this,' + total + ')" data-pagto="cartao" class="rv-pagto-btn flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-cinza-200 bg-white hover:border-marca-300 transition-all">' +
+                        '<svg class="w-6 h-6 text-cinza-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>' +
+                        '<span class="text-xs font-semibold text-cinza-600">Cartão</span>' +
+                    '</button>' +
+                    '<button onclick="registrar_venda_selPagto(this,' + total + ')" data-pagto="pix" class="rv-pagto-btn flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-cinza-200 bg-white hover:border-marca-300 transition-all">' +
+                        '<svg class="w-6 h-6 text-cinza-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.634-2.754 9.314a1 1 0 01-.492.394 1 1 0 01-1.066-.236 1 1 0 01.236-1.536C10.71 17.548 12.75 14.5 14.25 12c1.5-2.5 3.54-5.548 5.066-8.388a1 1 0 011.066.236 1 1 0 01-.236 1.536C18.009 5.366 17 8.483 17 12H15c0-2.21-.746-4.395-2.134-6.28A9.98 9.98 0 0012 3c-1.925 0-3.79.54-5.4 1.555"/></svg>' +
+                        '<span class="text-xs font-semibold text-cinza-600">Pix</span>' +
+                    '</button>' +
+                '</div></div>' +
+                '<div id="rv-campo-troco" class="hidden">' +
+                    '<label class="text-sm font-semibold text-cinza-700 mb-1.5 block">Valor recebido</label>' +
+                    '<div class="relative">' +
+                        '<span class="absolute left-3 top-1/2 -translate-y-1/2 text-cinza-500 text-sm font-semibold">R$</span>' +
+                        '<input type="number" id="rv-valor-recebido" oninput="registrar_venda_calcTroco()" placeholder="0,00" step="0.01" class="w-full pl-10 pr-4 py-3 bg-white border border-cinza-200 rounded-xl text-lg font-bold text-cinza-900 focus:outline-none focus:ring-2 focus:ring-marca-500" />' +
+                    '</div>' +
+                    '<div id="rv-troco-info" class="hidden mt-2 bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-center justify-between">' +
+                        '<span class="text-sm text-amber-700">Troco</span>' +
+                        '<span id="rv-troco-valor" class="text-lg font-bold text-amber-700 font-display">R$ 0,00</span>' +
+                    '</div>' +
+                    '<div id="rv-troco-erro" class="hidden mt-2 text-sm text-red-600 font-medium">Valor insuficiente</div>' +
+                '</div>' +
+                '<div class="flex gap-3 pt-2">' +
+                    '<button onclick="fecharModal()" class="flex-1 py-3 rounded-xl border-2 border-cinza-200 text-cinza-600 font-semibold text-sm hover:bg-cinza-50 transition-colors active:scale-[0.97]">Cancelar</button>' +
+                    '<button onclick="registrar_venda_confirmar()" id="rv-btn-confirmar" class="flex-1 bg-marca-700 hover:bg-marca-800 active:bg-marca-900 text-white font-bold py-3 rounded-xl transition-all active:scale-[0.97] text-sm">Confirmar</button>' +
+                '</div>' +
+            '</div>';
+            abrirModal(html, 'Forma de Pagamento');
+        }, 350);
+    };
+
+    window.registrar_venda_selPagto = function(btn, total) {
+        document.querySelectorAll('.rv-pagto-btn').forEach(b => {
+            b.className = 'rv-pagto-btn flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-cinza-200 bg-white hover:border-marca-300 transition-all';
+            b.querySelector('svg').className = 'w-6 h-6 text-cinza-500';
+            b.querySelector('span').className = 'text-xs font-semibold text-cinza-600';
+        });
+        btn.className = 'rv-pagto-btn rv-pagto-active flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-marca-500 bg-marca-50 transition-all';
+        btn.querySelector('svg').className = 'w-6 h-6 text-marca-700';
+        btn.querySelector('span').className = 'text-xs font-semibold text-marca-700';
+        const pgto = btn.dataset.pagto;
+        const campo = document.getElementById('rv-campo-troco');
+        if (pgto === 'dinheiro') { campo.classList.remove('hidden'); document.getElementById('rv-valor-recebido').value = ''; document.getElementById('rv-troco-info').classList.add('hidden'); document.getElementById('rv-troco-erro').classList.add('hidden'); }
+        else { campo.classList.add('hidden'); }
+    };
+
+    window.registrar_venda_calcTroco = function() {
+        const subtotal = carrinho.reduce((a, c) => a + c.preco * c.qtd, 0);
+        const desc = Math.min(parseFloat(document.getElementById('rv-desconto').value) || 0, subtotal);
+        const total = subtotal - desc;
+        const recebido = parseFloat(document.getElementById('rv-valor-recebido').value) || 0;
+        const trocoInfo = document.getElementById('rv-troco-info');
+        const trocoErr = document.getElementById('rv-troco-erro');
+        if (recebido > 0) {
+            if (recebido >= total) {
+                const troco = recebido - total;
+                document.getElementById('rv-troco-valor').textContent = brl(troco);
+                trocoInfo.classList.remove('hidden');
+                trocoErr.classList.add('hidden');
+            } else {
+                trocoInfo.classList.add('hidden');
+                trocoErr.classList.remove('hidden');
+            }
+        } else {
+            trocoInfo.classList.add('hidden');
+            trocoErr.classList.add('hidden');
+        }
+    };
+
+    window.registrar_venda_finalizar = function() {
+        if (!carrinho.length) return;
+        window.registrar_venda_abrirPagamento();
+    };
+
+    window.registrar_venda_confirmar = function() {
+        const activePagto = document.querySelector('.rv-pagto-active');
+        if (!activePagto) { toast('Selecione a forma de pagamento', 'erro'); return; }
+        const pgto = activePagto.dataset.pagto;
+        const subtotal = carrinho.reduce((a, c) => a + c.preco * c.qtd, 0);
+        const desc = Math.min(parseFloat(document.getElementById('rv-desconto').value) || 0, subtotal);
+        const total = subtotal - desc;
+        if (pgto === 'dinheiro') {
+            const recebido = parseFloat(document.getElementById('rv-valor-recebido').value) || 0;
+            if (recebido < total) { toast('Valor recebido insuficiente', 'erro'); return; }
+        }
+        const numVenda = 'V-' + String(Date.now()).slice(-6);
+        const dataHora = new Date().toLocaleString('pt-BR');
+        const pgtoLabel = pgto === 'cartao' ? 'Cartão de Crédito/Débito' : pgto === 'pix' ? 'Pix' : 'Dinheiro';
+        const itensResumo = carrinho.map(c => c.nome + ' x' + c.qtd).join('<br>');
+        fecharModal();
+        setTimeout(() => {
+            const html = '<div class="p-5 text-center space-y-4">' +
+                '<div class="w-16 h-16 bg-marca-100 rounded-full flex items-center justify-center mx-auto">' +
+                    '<svg class="w-8 h-8 text-marca-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' +
+                '</div>' +
+                '<div>' +
+                    '<p class="text-sm text-cinza-500">Venda realizada com sucesso!</p>' +
+                    '<p class="text-lg font-bold text-cinza-900 font-display mt-1">' + numVenda + '</p>' +
+                '</div>' +
+                '<div class="bg-cinza-50 rounded-xl p-4 text-left space-y-2 text-sm">' +
+                    '<div class="flex justify-between"><span class="text-cinza-500">Data/Hora</span><span class="font-semibold text-cinza-800">' + dataHora + '</span></div>' +
+                    '<div class="flex justify-between"><span class="text-cinza-500">Itens</span><span class="font-semibold text-cinza-800 text-right ml-4">' + itensResumo + '</span></div>' +
+                    '<div class="flex justify-between"><span class="text-cinza-500">Pagamento</span><span class="font-semibold text-cinza-800">' + pgtoLabel + '</span></div>' +
+                    (desc > 0 ? '<div class="flex justify-between"><span class="text-cinza-500">Desconto</span><span class="font-semibold text-red-600">-' + brl(desc) + '</span></div>' : '') +
+                    '<div class="border-t border-cinza-200 pt-2 flex justify-between"><span class="font-bold text-cinza-900">Total</span><span class="font-bold text-marca-700 font-display text-lg">' + brl(total) + '</span></div>' +
+                    (pgto === 'dinheiro' ? '<div class="flex justify-between"><span class="text-cinza-500">Recebido</span><span class="font-semibold text-cinza-800">' + brl(parseFloat(document.getElementById('rv-valor-recebido').value) || 0) + '</span></div><div class="flex justify-between"><span class="text-cinza-500">Troco</span><span class="font-semibold text-green-600">' + brl((parseFloat(document.getElementById('rv-valor-recebido').value) || 0) - total) + '</span></div>' : '') +
+                '</div>' +
+                '<div class="grid grid-cols-2 gap-3">' +
+                    '<button onclick="registrar_venda_imprimir()" class="flex items-center justify-center gap-2 py-3 rounded-xl border-2 border-cinza-200 text-cinza-700 font-semibold text-sm hover:bg-cinza-50 transition-colors active:scale-[0.97]">' +
+                        '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2zm6-10V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4"/></svg>' +
+                        'Imprimir' +
+                    '</button>' +
+                    '<button onclick="registrar_venda_whatsapp()" class="flex items-center justify-center gap-2 py-3 rounded-xl bg-green-600 hover:bg-green-700 text-white font-semibold text-sm transition-colors active:scale-[0.97]">' +
+                        '<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+                        'WhatsApp' +
+                    '</button>' +
+                '</div>' +
+                '<button onclick="fecharModal();registrar_venda_novaVenda()" class="w-full py-3 rounded-xl bg-marca-700 hover:bg-marca-800 text-white font-bold text-sm transition-colors active:scale-[0.97]">Nova Venda</button>' +
+            '</div>';
+            abrirModal(html, 'Venda #' + numVenda);
+        }, 300);
+    };
+
+    window.registrar_venda_imprimir = function() {
+        toast('Comprovante enviado para impressão', 'ok');
+        fecharModal();
+        setTimeout(() => registrar_venda_novaVenda(), 400);
+    };
+
+    window.registrar_venda_whatsapp = function() {
+        toast('Link do comprovante copiado!', 'ok');
+        fecharModal();
+        setTimeout(() => registrar_venda_novaVenda(), 400);
+    };
+
+    window.registrar_venda_novaVenda = function() {
+        carrinho = [];
+        filtroCat = 'todas';
+        filtroBusca = '';
+        document.getElementById('rv-busca').value = '';
+        document.getElementById('rv-limpa-busca').classList.add('hidden');
+        document.getElementById('rv-desconto').value = '0';
+        document.querySelectorAll('.rv-pagto-btn').forEach(b => {
+            b.className = 'rv-pagto-btn flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-cinza-200 bg-white hover:border-marca-300 transition-all';
+            b.querySelector('svg').className = 'w-6 h-6 text-cinza-500';
+            b.querySelector('span').className = 'text-xs font-semibold text-cinza-600';
+        });
+        const firstPagto = document.querySelector('.rv-pagto-btn');
+        if (firstPagto) {
+            firstPagto.className = 'rv-pagto-btn rv-pagto-active flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 border-marca-500 bg-marca-50 transition-all';
+            firstPagto.querySelector('svg').className = 'w-6 h-6 text-marca-700';
+            firstPagto.querySelector('span').className = 'text-xs font-semibold text-marca-700';
+        }
+        document.getElementById('rv-campo-troco').classList.add('hidden');
+        window.registrar_venda_render();
+        window.registrar_venda_renderCart();
+    };
+
+    window.registrar_venda_reset = function() {
+        carrinho = [];
+        filtroCat = 'todas';
+        filtroBusca = '';
+        const busca = document.getElementById('rv-busca');
+        if (busca) busca.value = '';
+        const limpa = document.getElementById('rv-limpa-busca');
+        if (limpa) limpa.classList.add('hidden');
+        const desc = document.getElementById('rv-desconto');
+        if (desc) desc.value = '0';
+        document.querySelectorAll('.rv-cat-btn').forEach(b => {
+            const isActive = b.dataset.cat === 'todas';
+            b.className = 'rv-cat-btn shrink-0 px-4 py-1.5 rounded-full text-xs font-semibold transition-all ' + (isActive ? 'bg-marca-700 text-white shadow-md shadow-marca-700/20' : 'bg-cinza-100 text-cinza-600 hover:bg-cinza-200');
+        });
+        window.registrar_venda_render();
+        window.registrar_venda_renderCart();
+    };
+
+    const origMostrarTela = window.mostrarTela;
+    window.mostrarTela = function(id) {
+        if (id === 'registrar-venda') window.registrar_venda_reset();
+        origMostrarTela(id);
+    };
+
+    window.registrar_venda_render();
+    window.registrar_venda_renderCart();
+})();
+</script>
+
     <!-- TELAS -->
 
     </div>
