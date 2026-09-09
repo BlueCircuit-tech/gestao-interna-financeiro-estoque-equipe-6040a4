@@ -2011,6 +2011,464 @@ function estoque_confirmarNovo() {
 document.addEventListener('DOMContentLoaded', () => estoque_filtrar());
 </script>
 
+    <section data-tela="financeiro" class="hidden">
+  <div class="fade-in">
+    <!-- Header da tela -->
+    <div class="mb-5">
+      <h2 class="text-2xl font-display font-bold text-gray-900">Financeiro</h2>
+      <p class="text-sm text-gray-500 mt-1">Visão geral de caixa, contas e fluxo</p>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="grid grid-cols-3 gap-3 mb-5">
+      <div class="card p-3 cursor-pointer hover:shadow-lg transition-shadow" onclick="financeiro_mostrarDetalhe('receber')">
+        <div class="w-8 h-8 rounded-lg bg-green-100 flex items-center justify-center mb-2">
+          <svg class="w-4 h-4 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-4 4m4-4l4 4M4 19h16"/></svg>
+        </div>
+        <p class="text-[10px] text-gray-500 uppercase tracking-wide">A Receber</p>
+        <p class="text-sm font-bold text-gray-900 mt-0.5">R$ 12.350</p>
+        <span class="text-[10px] text-green-600 font-medium">8 parcelas</span>
+      </div>
+      <div class="card p-3 cursor-pointer hover:shadow-lg transition-shadow" onclick="financeiro_mostrarDetalhe('pagar')">
+        <div class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center mb-2">
+          <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m0 0l-4-4m4 4l4-4M4 5h16"/></svg>
+        </div>
+        <p class="text-[10px] text-gray-500 uppercase tracking-wide">A Pagar</p>
+        <p class="text-sm font-bold text-gray-900 mt-0.5">R$ 3.200</p>
+        <span class="text-[10px] text-red-500 font-medium">5 contas</span>
+      </div>
+      <div class="card p-3 cursor-pointer hover:shadow-lg transition-shadow" onclick="financeiro_mostrarDetalhe('saldo')">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center mb-2">
+          <svg class="w-4 h-4 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <p class="text-[10px] text-gray-500 uppercase tracking-wide">Saldo</p>
+        <p class="text-sm font-bold text-emerald-700 mt-0.5">R$ 9.150</p>
+        <span class="text-[10px] text-green-500 font-medium">+12% este mês</span>
+      </div>
+    </div>
+
+    <!-- Gráfico de fluxo de caixa -->
+    <div class="card p-4 mb-5">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-display font-semibold text-gray-800">Fluxo de Caixa</h3>
+        <span class="text-xs text-gray-400">Janeiro 2026</span>
+      </div>
+      <svg viewBox="0 0 300 140" class="w-full h-36">
+        <rect x="0" y="0" width="300" height="140" fill="transparent"/>
+        <!-- Grid lines -->
+        <line x1="0" y1="35" x2="300" y2="35" stroke="#f1f5f9" stroke-width="1"/>
+        <line x1="0" y1="70" x2="300" y2="70" stroke="#f1f5f9" stroke-width="1"/>
+        <line x1="0" y1="105" x2="300" y2="105" stroke="#f1f5f9" stroke-width="1"/>
+        <!-- Entradas (green bars) -->
+        <rect x="15" y="40" width="22" height="95" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="52" y="25" width="22" height="110" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="89" y="55" width="22" height="80" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="126" y="15" width="22" height="120" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="163" y="30" width="22" height="105" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="200" y="50" width="22" height="85" rx="3" fill="#22C55E" opacity="0.85"/>
+        <rect x="237" y="20" width="22" height="115" rx="3" fill="#22C55E" opacity="0.85"/>
+        <!-- Saídas (red bars overlay) -->
+        <rect x="20" y="75" width="12" height="60" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="57" y="65" width="12" height="70" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="94" y="85" width="12" height="50" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="131" y="60" width="12" height="75" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="168" y="70" width="12" height="65" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="205" y="80" width="12" height="55" rx="2" fill="#ef4444" opacity="0.75"/>
+        <rect x="242" y="55" width="12" height="80" rx="2" fill="#ef4444" opacity="0.75"/>
+        <!-- Labels -->
+        <text x="26" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">01-07</text>
+        <text x="63" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">08-14</text>
+        <text x="100" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">15-21</text>
+        <text x="137" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">22-28</text>
+        <text x="174" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">29-04</text>
+        <text x="211" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">05-11</text>
+        <text x="248" y="138" text-anchor="middle" fill="#9ca3af" font-size="8">12-18</text>
+        <!-- Legend -->
+        <rect x="240" y="5" width="8" height="8" rx="2" fill="#22C55E"/>
+        <text x="252" y="13" fill="#6b7280" font-size="8">Entradas</text>
+        <rect x="280" y="5" width="8" height="8" rx="2" fill="#ef4444"/>
+        <text x="292" y="13" fill="#6b7280" font-size="8">Saídas</text>
+      </svg>
+    </div>
+
+    <!-- Abas -->
+    <div class="flex bg-gray-100 rounded-xl p-1 mb-4">
+      <button onclick="financeiro_aba('receber')" id="aba-receber" class="flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-marca-800 text-white shadow-sm">Contas a Receber</button>
+      <button onclick="financeiro_aba('pagar')" id="aba-pagar" class="flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-600 hover:text-gray-800">Contas a Pagar</button>
+      <button onclick="financeiro_aba('fluxo')" id="aba-fluxo" class="flex-1 py-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-600 hover:text-gray-800">Fluxo de Caixa</button>
+    </div>
+
+    <!-- Conteúdo: Contas a Receber -->
+    <div id="conteudo-receber">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-gray-500" id="contador-receber">8 contas registradas</p>
+        <button onclick="financeiro_abrirModalNovaConta()" class="btn text-xs py-2 px-4 flex items-center gap-1 active:scale-95 transition-transform">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          Nova Conta
+        </button>
+      </div>
+      <div id="lista-receber" class="space-y-2.5"></div>
+    </div>
+
+    <!-- Conteúdo: Contas a Pagar -->
+    <div id="conteudo-pagar" class="hidden">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-xs text-gray-500" id="contador-pagar">5 contas registradas</p>
+        <button onclick="financeiro_abrirModalNovaContaPagar()" class="btn text-xs py-2 px-4 flex items-center gap-1 active:scale-95 transition-transform">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          Nova Conta
+        </button>
+      </div>
+      <div id="lista-pagar" class="space-y-2.5"></div>
+    </div>
+
+    <!-- Conteúdo: Fluxo de Caixa -->
+    <div id="conteudo-fluxo" class="hidden">
+      <div class="card p-4">
+        <h3 class="text-sm font-display font-semibold text-gray-800 mb-3">Resumo do Período</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+              <span class="text-sm text-gray-600">Total Entradas</span>
+            </div>
+            <span class="text-sm font-bold text-green-700">R$ 28.750,00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+              <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+              <span class="text-sm text-gray-600">Total Saídas</span>
+            </div>
+            <span class="text-sm font-bold text-red-600">R$ 19.600,00</span>
+          </div>
+          <div class="border-t border-gray-100 pt-3 flex justify-between items-center">
+            <span class="text-sm font-semibold text-gray-700">Saldo Líquido</span>
+            <span class="text-base font-bold text-emerald-700">R$ 9.150,00</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 card p-4">
+        <h3 class="text-sm font-display font-semibold text-gray-800 mb-3">Movimentações Recentes</h3>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-4 4m4-4l4 4M4 19h16"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800 truncate">Venda PDV #1284</p>
+              <p class="text-xs text-gray-400">15/01/2026</p>
+            </div>
+            <span class="text-sm font-semibold text-green-600">+R$ 480,00</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m0 0l-4-4m4 4l4-4M4 5h16"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800 truncate">Pagamento Fornecedor ABC</p>
+              <p class="text-xs text-gray-400">14/01/2026</p>
+            </div>
+            <span class="text-sm font-semibold text-red-500">-R$ 1.200,00</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-4 4m4-4l4 4M4 19h16"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800 truncate">Assinatura Mensal — Cliente Silva</p>
+              <p class="text-xs text-gray-400">13/01/2026</p>
+            </div>
+            <span class="text-sm font-semibold text-green-600">+R$ 350,00</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14m0 0l-4-4m4 4l4-4M4 5h16"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800 truncate">Aluguel do Escritório</p>
+              <p class="text-xs text-gray-400">10/01/2026</p>
+            </div>
+            <span class="text-sm font-semibold text-red-500">-R$ 2.800,00</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-green-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19V5m0 0l-4 4m4-4l4 4M4 19h16"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-800 truncate">Venda PDV #1278</p>
+              <p class="text-xs text-gray-400">09/01/2026</p>
+            </div>
+            <span class="text-sm font-semibold text-green-600">+R$ 720,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const dados = {
+    receber: [
+      {id:1, cliente:'Maria Oliveira', valor:1800, vencimento:'2026-01-20', status:'pendente', forma:'PIX', obs:'Parcela 1/3 — Projeto Site'},
+      {id:2, cliente:'TechNova Soluções', valor:3500, vencimento:'2026-01-15', status:'atrasado', forma:'Boleto', obs:'Manutenção mensal — janeiro'},
+      {id:3, cliente:'Restaurante Sabor & Arte', valor:1200, vencimento:'2026-01-18', status:'pago', forma:'Transferência', obs:'Assinatura plataforma — pago em 17/01'},
+      {id:4, cliente:'Construtora Horizonte', valor:4800, vencimento:'2026-01-25', status:'pendente', forma:'Boleto', obs:'Desenvolvimento App — Parcela 2/4'},
+      {id:5, cliente:'Clínica Vida Saúdavel', valor:950, vencimento:'2026-01-10', status:'pago', forma:'PIX', obs:'Serviço de suporte técnico'},
+      {id:6, cliente:'Distribuidora Norte', valor:2100, vencimento:'2026-01-28', status:'pendente', forma:'Boleto', obs:'Consultoria ERP — Parcela única'},
+      {id:7, cliente:'Escola Futuro Brilhante', valor:600, vencimento:'2026-01-08', status:'atrasado', forma:'PIX', obs:'Licença software — 7 dias de atraso'},
+      {id:8, cliente:'Farmácia Popular', valor:1400, vencimento:'2026-02-01', status:'pendente', forma:'Cartão', obs:'Integração sistema — parcelado'}
+    ],
+    pagar: [
+      {id:1, cliente:'Fornecedor ABC Informática', valor:1200, vencimento:'2026-01-20', status:'pendente', forma:'Boleto', obs:'Compra de notebooks — 5 unidades'},
+      {id:2, cliente:'Aluguel Escritório Centro', valor:2800, vencimento:'2026-01-10', status:'pago', forma:'Transferência', obs:'Janeiro/2026 — pago em 09/01'},
+      {id:3, cliente:'Plano de Saúde Coletivo', valor:850, vencimento:'2026-01-25', status:'pendente', forma:'Débito automático', obs:'Funcionários — plano básico'},
+      {id:4, cliente:'Internet Fibra', valor:199.90, vencimento:'2026-01-15', status:'pago', forma:'Cartão', obs:'Plano empresarial 500MB'},
+      {id:5, cliente:'Contabilidade Silva & Cia', valor:450, vencimento:'2026-01-30', status:'pendente', forma:'PIX', obs:'Honorários contábeis — janeiro'}
+    ]
+  };
+
+  let abaAtiva = 'receber';
+  let filtroReceber = '';
+  let filtroPagar = '';
+
+  const badgeStatus = (s) => {
+    const map = {
+      pago: 'bg-green-100 text-green-700',
+      pendente: 'bg-yellow-100 text-yellow-700',
+      atrasado: 'bg-red-100 text-red-700'
+    };
+    const label = {pago:'Pago', pendente:'Pendente', atrasado:'Atrasado'};
+    return `<span class="badge ${map[s] || map.pendente}">${label[s]||s}</span>`;
+  };
+
+  const inicial = (nome) => nome.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const corAvatar = (nome) => {
+    const cores = ['bg-green-200 text-green-800','bg-emerald-200 text-emerald-800','bg-teal-200 text-teal-800','bg-lime-200 text-lime-800'];
+    let h=0;for(let i=0;i<nome.length;i++) h=nome.charCodeAt(i)+((h<<5)-h);
+    return cores[Math.abs(h)%cores.length];
+  };
+
+  function renderLista(tipo) {
+    const container = document.getElementById('lista-' + tipo);
+    const filtro = tipo==='receber' ? filtroReceber : filtroPagar;
+    let lista = dados[tipo].filter(c => {
+      if(!filtro) return true;
+      const q = filtro.toLowerCase();
+      return c.cliente.toLowerCase().includes(q) || c.status.includes(q);
+    });
+    document.getElementById('contador-' + tipo).textContent = lista.length + ' conta' + (lista.length!==1?'s':'') + ' registrada' + (lista.length!==1?'s':'');
+    if(!lista.length){
+      container.innerHTML = `<div class="card p-8 text-center"><svg class="w-10 h-10 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg><p class="text-sm text-gray-400">Nenhuma conta encontrada</p></div>`;
+      return;
+    }
+    container.innerHTML = lista.map(c => `
+      <div class="card p-3.5 cursor-pointer active:scale-[0.98] transition-all" onclick="financeiro_verConta(${tipo==='receber'?1:2}, ${c.id})">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full ${corAvatar(c.cliente)} flex items-center justify-center text-xs font-bold shrink-0">${inicial(c.cliente)}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-semibold text-gray-800 truncate">${c.cliente}</p>
+              ${badgeStatus(c.status)}
+            </div>
+            <p class="text-xs text-gray-400 mt-0.5">Vence ${dataBR(c.vencimento)} · ${c.forma}</p>
+          </div>
+          <div class="text-right shrink-0">
+            <p class="text-sm font-bold ${c.status==='atrasado'?'text-red-600':'text-gray-900'}">${brl(c.valor)}</p>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.financeiro_aba = function(aba) {
+    abaAtiva = aba;
+    ['receber','pagar','fluxo'].forEach(a => {
+      document.getElementById('conteudo-'+a).classList.toggle('hidden', a!==aba);
+      const btn = document.getElementById('aba-'+a);
+      if(a===aba){
+        btn.classList.add('bg-marca-800','text-white','shadow-sm');
+        btn.classList.remove('text-gray-600','hover:text-gray-800');
+      } else {
+        btn.classList.remove('bg-marca-800','text-white','shadow-sm');
+        btn.classList.add('text-gray-600','hover:text-gray-800');
+      }
+    });
+    renderLista(aba);
+  };
+
+  window.financeiro_abrirModalNovaConta = function() {
+    abrirModal(`
+      <form onsubmit="event.preventDefault(); financeiro_salvarReceber();">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Cliente</label>
+            <input id="fin-cliente" type="text" required placeholder="Nome do cliente" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Valor (R$)</label>
+            <input id="fin-valor" type="text" required placeholder="0,00" oninput="this.value = this.value.replace(/[^0-9,]/g,'')" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Data de Vencimento</label>
+            <input id="fin-venc" type="date" required class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Forma de Pagamento</label>
+            <select id="fin-forma" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition">
+              <option value="PIX">PIX</option>
+              <option value="Boleto">Boleto</option>
+              <option value="Transferência">Transferência</option>
+              <option value="Cartão">Cartão de Crédito</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Observações</label>
+            <textarea id="fin-obs" rows="2" placeholder="Descrição da conta..." class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition resize-none"></textarea>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <button type="button" onclick="fecharModal()" class="flex-1 py-2.5 text-sm font-semibold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition active:scale-95">Cancelar</button>
+          <button type="submit" class="flex-1 btn py-2.5 text-sm font-semibold active:scale-95">Salvar</button>
+        </div>
+      </form>
+    `, 'Nova Conta a Receber');
+  };
+
+  window.financeiro_salvarReceber = function() {
+    const cliente = document.getElementById('fin-cliente').value.trim();
+    const valor = parseFloat(document.getElementById('fin-valor').value.replace(',','.')) || 0;
+    const vencimento = document.getElementById('fin-venc').value;
+    const forma = document.getElementById('fin-forma').value;
+    const obs = document.getElementById('fin-obs').value.trim();
+    if(!cliente || !valor || !vencimento){
+      toast('Preencha todos os campos obrigatórios.', 'erro'); return;
+    }
+    dados.receber.unshift({id: Date.now(), cliente, valor, vencimento, status:'pendente', forma, obs});
+    fecharModal();
+    renderLista('receber');
+    toast('Conta a receber registrada com sucesso!', 'ok');
+  };
+
+  window.financeiro_abrirModalNovaContaPagar = function() {
+    abrirModal(`
+      <form onsubmit="event.preventDefault(); financeiro_salvarPagar();">
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Credor / Fornecedor</label>
+            <input id="finp-cliente" type="text" required placeholder="Nome do credor" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Valor (R$)</label>
+            <input id="finp-valor" type="text" required placeholder="0,00" oninput="this.value = this.value.replace(/[^0-9,]/g,'')" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Data de Vencimento</label>
+            <input id="finp-venc" type="date" required class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Forma de Pagamento</label>
+            <select id="finp-forma" class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition">
+              <option value="Boleto">Boleto</option>
+              <option value="Transferência">Transferência</option>
+              <option value="PIX">PIX</option>
+              <option value="Débito automático">Débito automático</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Observações</label>
+            <textarea id="finp-obs" rows="2" placeholder="Descrição da conta..." class="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:ring-2 focus:ring-marca-500 focus:border-marca-500 outline-none transition resize-none"></textarea>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <button type="button" onclick="fecharModal()" class="flex-1 py-2.5 text-sm font-semibold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition active:scale-95">Cancelar</button>
+          <button type="submit" class="flex-1 btn py-2.5 text-sm font-semibold active:scale-95">Salvar</button>
+        </div>
+      </form>
+    `, 'Nova Conta a Pagar');
+  };
+
+  window.financeiro_salvarPagar = function() {
+    const cliente = document.getElementById('finp-cliente').value.trim();
+    const valor = parseFloat(document.getElementById('finp-valor').value.replace(',','.')) || 0;
+    const vencimento = document.getElementById('finp-venc').value;
+    const forma = document.getElementById('finp-forma').value;
+    const obs = document.getElementById('finp-obs').value.trim();
+    if(!cliente || !valor || !vencimento){
+      toast('Preencha todos os campos obrigatórios.', 'erro'); return;
+    }
+    dados.pagar.unshift({id: Date.now(), cliente, valor, vencimento, status:'pendente', forma, obs});
+    fecharModal();
+    renderLista('pagar');
+    toast('Conta a pagar registrada com sucesso!', 'ok');
+  };
+
+  window.financeiro_verConta = function(tipo, id) {
+    const l = dados[tipo==='receber'?'receber':'pagar'];
+    const c = l.find(x=>x.id===id);
+    if(!c) return;
+    const isReceber = tipo === 1;
+    abrirModal(`
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-full ${corAvatar(c.cliente)} flex items-center justify-center text-sm font-bold">${inicial(c.cliente)}</div>
+          <div>
+            <p class="font-display font-bold text-gray-900">${c.cliente}</p>
+            ${badgeStatus(c.status)}
+          </div>
+        </div>
+        <div class="bg-gray-50 rounded-xl p-4 space-y-2.5">
+          <div class="flex justify-between"><span class="text-xs text-gray-500">Valor</span><span class="text-sm font-bold text-gray-900">${brl(c.valor)}</span></div>
+          <div class="flex justify-between"><span class="text-xs text-gray-500">Vencimento</span><span class="text-sm text-gray-700">${dataBR(c.vencimento)}</span></div>
+          <div class="flex justify-between"><span class="text-xs text-gray-500">Forma</span><span class="text-sm text-gray-700">${c.forma}</span></div>
+          <div class="flex justify-between"><span class="text-xs text-gray-500">Status</span>${badgeStatus(c.status)}</div>
+        </div>
+        ${c.obs ? `<p class="text-xs text-gray-500 bg-yellow-50 border border-yellow-100 rounded-lg p-2.5"><span class="font-semibold">Obs:</span> ${c.obs}</p>` : ''}
+        <div class="flex gap-2 pt-1">
+          ${c.status!=='pago' ? `<button onclick="financeiro_marcarPago(${tipo},${id})" class="flex-1 btn py-2.5 text-xs font-semibold active:scale-95">${isReceber ? 'Marcar como Recebido' : 'Marcar como Pago'}</button>` : ''}
+          <button onclick="fecharModal()" class="flex-1 py-2.5 text-xs font-semibold text-gray-600 bg-gray-100 rounded-xl hover:bg-gray-200 transition active:scale-95">Fechar</button>
+        </div>
+      </div>
+    `, isReceber ? 'Conta a Receber' : 'Conta a Pagar');
+  };
+
+  window.financeiro_marcarPago = function(tipo, id) {
+    const key = tipo===1?'receber':'pagar';
+    const c = dados[key].find(x=>x.id===id);
+    if(c){ c.status='pago'; fecharModal(); renderLista(key); toast('Conta atualizada com sucesso!', 'ok'); }
+  };
+
+  window.financeiro_mostrarDetalhe = function(tipo) {
+    financeiro_aba(tipo==='saldo'?'receber':tipo);
+    if(tipo==='saldo'){
+      setTimeout(()=>{
+        abrirModal(`
+          <div class="space-y-3">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center">
+                <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-500">Saldo Disponível</p>
+                <p class="text-xl font-bold text-emerald-700">R$ 9.150,00</p>
+              </div>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-3 space-y-2">
+              <div class="flex justify-between"><span class="text-xs text-gray-500">Total A Receber</span><span class="text-sm font-semibold text-green-700">+ R$ 12.350,00</span></div>
+              <div class="flex justify-between"><span class="text-xs text-gray-500">Total A Pagar</span><span class="text-sm font-semibold text-red-600">- R$ 3.200,00</span></div>
+              <div class="border-t border-gray-200 pt-2 flex justify-between"><span class="text-xs font-semibold text-gray-700">Saldo Líquido</span><span class="text-sm font-bold text-emerald-700">R$ 9.150,00</span></div>
+            </div>
+            <button onclick="fecharModal(); financeiro_aba('fluxo');" class="w-full py-2.5 text-xs font-semibold text-white bg-marca-800 rounded-xl hover:bg-marca-900 transition active:scale-95">Ver Fluxo de Caixa</button>
+          </div>
+        `, 'Saldo Atual');
+      },50);
+    }
+  };
+
+  renderLista('receber');
+})();
+</script>
+
     <!-- TELAS -->
 
     </div>
