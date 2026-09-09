@@ -3467,6 +3467,179 @@ document.addEventListener('DOMContentLoaded', () => estoque_filtrar());
 })();
 </script>
 
+    <section data-tela="administracao" class="hidden">
+  <div class="px-4 pb-8 pt-2 max-w-[430px] mx-auto space-y-4">
+
+    <div class="flex items-start justify-between">
+      <div>
+        <h1 class="font-display text-2xl font-bold text-marca-900">Administração</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Visão geral e configurações</p>
+      </div>
+      <button onclick="mostrarTela('relatorios')" class="p-2.5 rounded-xl bg-marca-50 text-marca-700 active:scale-95 transition-all hover:bg-marca-100" title="Relatórios">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"/></svg>
+      </button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <div class="card p-4 bg-gradient-to-br from-marca-800 to-marca-900 text-white active:scale-[0.97] transition-transform cursor-pointer" onclick="administracao_detalheFaturamento()">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <span class="text-xs text-marca-200 font-medium">Faturamento</span>
+        </div>
+        <p class="text-xl font-bold">R$ 847.320</p>
+        <p class="text-xs text-emerald-300 mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>+12,5% vs mês anterior</p>
+      </div>
+
+      <div class="card p-4 active:scale-[0.97] transition-transform cursor-pointer" onclick="mostrarTela('relatorios')">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.438-3.438 9.337 9.337 0 00-4.121.952 48.274 48.274 0 00-3.446 3.446m-.444 3.436a48.842 48.842 0 013.168-4.148m-3.168 4.148l-2.341-2.341M15 19.128l-2.341-2.341M9 15.75l-2.121-2.121"/></svg></div>
+          <span class="text-xs text-gray-500 font-medium">Clientes</span>
+        </div>
+        <p class="text-xl font-bold text-gray-900">1.284</p>
+        <p class="text-xs text-emerald-600 mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>+8,3% este mês</p>
+      </div>
+
+      <div class="card p-4 active:scale-[0.97] transition-transform cursor-pointer" onclick="mostrarTela('estoque')">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg></div>
+          <span class="text-xs text-gray-500 font-medium">Produtos</span>
+        </div>
+        <p class="text-xl font-bold text-gray-900">356</p>
+        <p class="text-xs text-emerald-600 mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>+3,2% este mês</p>
+      </div>
+
+      <div class="card p-4 active:scale-[0.97] transition-transform cursor-pointer" onclick="mostrarTela('equipe')">
+        <div class="flex items-center gap-2 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-3.438-3.438 9.337 9.337 0 00-4.121.952 48.274 48.274 0 00-3.446 3.446m-.444 3.436a48.842 48.842 0 013.168-4.148m-3.168 4.148l-2.341-2.341M15 19.128l-2.341-2.341M9 15.75l-2.121-2.121"/></svg></div>
+          <span class="text-xs text-gray-500 font-medium">Equipe</span>
+        </div>
+        <p class="text-xl font-bold text-gray-900">42</p>
+        <p class="text-xs text-emerald-600 mt-1 flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>+2 este mês</p>
+      </div>
+    </div>
+
+    <div class="card p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="font-display font-semibold text-gray-900">Crescimento Mensal</h2>
+        <span class="text-xs text-gray-400">Jul - Dez 2025</span>
+      </div>
+      <svg viewBox="0 0 340 150" class="w-full h-auto">
+        <defs><linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22C55E"/><stop offset="100%" stop-color="#15803D"/></linearGradient></defs>
+        <line x1="30" y1="10" x2="30" y2="120" stroke="#E5E7EB" stroke-width="1"/>
+        <line x1="30" y1="120" x2="330" y2="120" stroke="#E5E7EB" stroke-width="1"/>
+        <text x="8" y="14" font-size="9" fill="#9CA3AF">900k</text>
+        <text x="8" y="44" font-size="9" fill="#9CA3AF">600k</text>
+        <text x="8" y="74" font-size="9" fill="#9CA3AF">300k</text>
+        <text x="8" y="104" font-size="9" fill="#9CA3AF">0</text>
+        <rect x="38" y="22" width="28" height="98" rx="4" fill="url(#barGrad)" opacity="0.7"/><text x="52" y="18" text-anchor="middle" font-size="8" fill="#6B7280" font-weight="600">Jul</text><text x="52" y="16" text-anchor="middle" font-size="7" fill="#9CA3AF">420k</text>
+        <rect x="84" y="15" width="28" height="105" rx="4" fill="url(#barGrad)" opacity="0.75"/><text x="98" y="11" text-anchor="middle" font-size="8" fill="#6B7280" font-weight="600">Ago</text><text x="98" y="9" text-anchor="middle" font-size="7" fill="#9CA3AF">480k</text>
+        <rect x="130" y="11" width="28" height="109" rx="4" fill="url(#barGrad)" opacity="0.8"/><text x="144" y="7" text-anchor="middle" font-size="8" fill="#6B7280" font-weight="600">Set</text><text x="144" y="5" text-anchor="middle" font-size="7" fill="#9CA3AF">510k</text>
+        <rect x="176" y="-8" width="28" height="128" rx="4" fill="url(#barGrad)" opacity="0.85"/><text x="190" y="-12" text-anchor="middle" font-size="8" fill="#6B7280" font-weight="600">Out</text><text x="190" y="-14" text-anchor="middle" font-size="7" fill="#15803D" font-weight="700">620k</text>
+        <rect x="222" y="-26" width="28" height="146" rx="4" fill="url(#barGrad)" opacity="0.9"/><text x="236" y="-30" text-anchor="middle" font-size="8" fill="#6B7280" font-weight="600">Nov</text><text x="236" y="-32" text-anchor="middle" font-size="7" fill="#15803D" font-weight="700">710k</text>
+        <rect x="268" y="-55" width="28" height="175" rx="4" fill="#22C55E"/><text x="282" y="-59" text-anchor="middle" font-size="8" fill="#15803D" font-weight="700">Dez</text><text x="282" y="-61" text-anchor="middle" font-size="7" fill="#15803D" font-weight="700">847k</text>
+        <circle cx="282" cy="65" r="4" fill="#14532D"/>
+      </svg>
+    </div>
+
+    <div class="card p-5 bg-gradient-to-r from-marca-800 to-marca-700 text-white">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <p class="text-xs text-marca-200 font-medium">Plano Atual</p>
+          <h3 class="font-display font-bold text-lg">Profissional</h3>
+        </div>
+        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center"><svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3m-3 3h3m-3 3h3M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H4.5A2.25 2.25 0 002.25 6v11.25a2.25 2.25 0 002.25 2.25z"/></svg></div>
+      </div>
+      <div class="flex items-end justify-between">
+        <div>
+          <p class="text-2xl font-bold">R$ 299<span class="text-sm font-normal text-marca-200">/mês</span></p>
+          <p class="text-xs text-marca-200 mt-1">Renova em 15/02/2026</p>
+        </div>
+        <button onclick="administracao_alterarPlano()" class="px-4 py-2 bg-white text-marca-800 rounded-lg text-sm font-semibold active:scale-95 transition-all hover:bg-marca-50">Alterar Plano</button>
+      </div>
+      <div class="flex gap-1 mt-3"><span class="px-2 py-0.5 bg-white/20 rounded text-[10px]">Até 5 usuários</span><span class="px-2 py-0.5 bg-white/20 rounded text-[10px]">10 GB</span><span class="px-2 py-0.5 bg-white/20 rounded text-[10px]">Suporte prioritário</span></div>
+    </div>
+
+    <div class="space-y-3" id="admin-secoes">
+      <div class="card overflow-hidden">
+        <button onclick="administracao_toggleSecao('sec-empresa')" class="w-full flex items-center justify-between p-4 text-left">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-marca-100 text-marca-700 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"/></svg></div><span class="font-semibold text-gray-900 text-sm">Dados da Empresa</span></div>
+          <svg id="icon-sec-empresa" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </button>
+        <div id="sec-empresa" class="px-4 pb-4 space-y-3 hidden">
+          <div><label class="block text-xs font-medium text-gray-600 mb-1">Nome da Empresa</label><input id="campo-nome-empresa" type="text" value="BlueCircuit Soluções Tecnológicas" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none transition-all"></div>
+          <div><label class="block text-xs font-medium text-gray-600 mb-1">CNPJ</label><input type="text" value="12.345.678/0001-90" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-gray-50 text-gray-500" readonly></div>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="col-span-2"><label class="block text-xs font-medium text-gray-600 mb-1">Rua</label><input id="campo-rua" type="text" value="Av. Paulista, 1578" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none"></div>
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">Nº</label><input id="campo-numero" type="text" value="1501" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none"></div>
+          </div>
+          <div class="grid grid-cols-3 gap-2">
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">Cidade</label><input id="campo-cidade" type="text" value="São Paulo" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none"></div>
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">UF</label><input id="campo-uf" type="text" value="SP" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none text-center uppercase"></div>
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">CEP</label><input type="text" value="01310-200" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-gray-50 text-gray-500" readonly></div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">Telefone</label><input type="text" value="(11) 3456-7890" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm bg-gray-50 text-gray-500" readonly></div>
+            <div><label class="block text-xs font-medium text-gray-600 mb-1">Email</label><input id="campo-email" type="email" value="contato@bluecircuit.com.br" class="w-full px-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none"></div>
+          </div>
+          <button onclick="administracao_salvarEmpresa()" class="w-full py-2.5 bg-marca-700 text-white rounded-lg text-sm font-semibold active:scale-[0.97] transition-all hover:bg-marca-800">Salvar Alterações</button>
+        </div>
+      </div>
+
+      <div class="card overflow-hidden">
+        <button onclick="administracao_toggleSecao('sec-usuarios')" class="w-full flex items-center justify-between p-4 text-left">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div><span class="font-semibold text-gray-900 text-sm">Usuários e Permissões</span></div>
+          <svg id="icon-sec-usuarios" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </button>
+        <div id="sec-usuarios" class="px-4 pb-4 space-y-2 hidden">
+          <div id="lista-usuarios"></div>
+          <button onclick="administracao_adicionarUsuario()" class="w-full py-2 border-2 border-dashed border-gray-200 rounded-lg text-sm text-gray-400 font-medium hover:border-marca-300 hover:text-marca-600 transition-all active:scale-[0.97]">+ Adicionar Usuário</button>
+        </div>
+      </div>
+
+      <div class="card overflow-hidden">
+        <button onclick="administracao_toggleSecao('sec-categorias')" class="w-full flex items-center justify-between p-4 text-left">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z"/></svg></div><span class="font-semibold text-gray-900 text-sm">Categorias de Produtos</span></div>
+          <svg id="icon-sec-categorias" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </button>
+        <div id="sec-categorias" class="px-4 pb-4 hidden">
+          <div id="lista-categorias" class="space-y-2"></div>
+          <div class="flex gap-2 mt-2">
+            <input id="campo-nova-categoria" type="text" placeholder="Nova categoria..." class="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:border-marca-500 outline-none" onkeydown="if(event.key==='Enter')administracao_addCategoria()">
+            <button onclick="administracao_addCategoria()" class="px-3 py-2 bg-marca-700 text-white rounded-lg text-sm active:scale-95 transition-all hover:bg-marca-800">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card overflow-hidden">
+        <button onclick="administracao_toggleSecao('sec-pagamento')" class="w-full flex items-center justify-between p-4 text-left">
+          <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v10.5a2.25 2.25 0 002.25 2.25z"/></svg></div><span class="font-semibold text-gray-900 text-sm">Formas de Pagamento</span></div>
+          <svg id="icon-sec-pagamento" class="w-5 h-5 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </button>
+        <div id="sec-pagamento" class="px-4 pb-4 space-y-2 hidden"></div>
+      </div>
+    </div>
+
+    <div class="card p-5">
+      <h2 class="font-display font-semibold text-gray-900 mb-3 flex items-center gap-2"><svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Logs de Acesso</h2>
+      <div class="relative mb-3">
+        <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
+        <input id="filtro-logs" type="text" placeholder="Buscar por nome ou ação..." class="w-full pl-9 pr-3 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-marca-500 focus:ring-1 focus:ring-marca-500 outline-none transition-all" oninput="administracao_filtrarLogs(this.value)">
+      </div>
+      <div id="lista-logs" class="space-y-2 max-h-64 overflow-y-auto pr-1"></div>
+      <div id="logs-vazio" class="hidden text-center py-6"><svg class="w-10 h-10 mx-auto text-gray-300 mb-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg><p class="text-sm text-gray-400">Nenhum log encontrado</p></div>
+    </div>
+
+    <div class="card p-5">
+      <h2 class="font-display font-semibold text-gray-900 mb-1 flex items-center gap-2"><svg class="w-5 h-5 text-marca-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125S3.75 13.653 3.75 11.375"/></svg>Backup de Dados</h2>
+      <p class="text-xs text-gray-400 mb-3">Último backup: 14/01/2026 às 03:00</p>
+      <div class="flex gap-2">
+        <button onclick="administracao_backup('completo')" class="flex-1 py-3 bg-marca-700 text-white rounded-xl text-sm font-semibold active:scale-[0.97] transition-all hover:bg-marca-800">Backup Completo</button>
+        <button onclick="administracao_backup('parcial')" class="flex-1 py-3 border-2 border-marca-200 text-marca-700 rounded-xl text-sm font-semibold active:scale-[0.97] transition-all hover:bg-marca-50">Backup Parcial</button>
+      </div>
+    </div>
+  </div>
+</section>
+
     <!-- TELAS -->
 
     </div>
