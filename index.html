@@ -1598,6 +1598,419 @@
 })();
 </script>
 
+    <section data-tela="estoque" class="hidden">
+    <div class="flex flex-col h-full">
+        <!-- Cabeçalho -->
+        <div class="px-5 pt-6 pb-3">
+            <div class="flex items-start justify-between">
+                <div>
+                    <h1 class="font-display text-2xl font-bold text-gray-900">Estoque</h1>
+                    <p class="text-sm text-gray-500 mt-0.5">12 produtos cadastrados</p>
+                </div>
+                <button onclick="estoque_novo()" class="bg-marca-700 hover:bg-marca-800 active:scale-95 text-white rounded-xl px-4 py-2.5 text-sm font-semibold flex items-center gap-1.5 transition-all shadow-lg shadow-marca-700/20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
+                    Novo
+                </button>
+            </div>
+            <!-- Resumo rápido -->
+            <div class="flex gap-2 mt-4">
+                <div class="flex-1 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p class="text-[11px] text-gray-400 font-medium uppercase tracking-wide">Total itens</p>
+                    <p class="font-display text-lg font-bold text-gray-900 mt-0.5">847</p>
+                </div>
+                <div class="flex-1 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p class="text-[11px] text-gray-400 font-medium uppercase tracking-wide">Baixo estoque</p>
+                    <p class="font-display text-lg font-bold text-red-600 mt-0.5">3</p>
+                </div>
+                <div class="flex-1 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+                    <p class="text-[11px] text-gray-400 font-medium uppercase tracking-wide">Esgotados</p>
+                    <p class="font-display text-lg font-bold text-gray-400 mt-0.5">1</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Busca -->
+        <div class="px-5 mt-2">
+            <div class="relative">
+                <svg class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input id="estoque-busca" type="text" placeholder="Buscar produto..."
+                    class="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all"
+                    oninput="estoque_filtrar()">
+            </div>
+        </div>
+
+        <!-- Filtros de categoria -->
+        <div class="px-5 mt-3">
+            <div class="flex gap-2 overflow-x-auto pb-1 -mx-5 px-5 scrollbar-hide" id="estoque-filtros">
+                <button onclick="estoque_setFiltro('todos')" data-filtro="todos" class="estoque-filtro-btn shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-marca-700 text-white">Todos</button>
+                <button onclick="estoque_setFiltro('em-estoque')" data-filtro="em-estoque" class="estoque-filtro-btn shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200">Em estoque</button>
+                <button onclick="estoque_setFiltro('baixo')" data-filtro="baixo" class="estoque-filtro-btn shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200">Baixo estoque</button>
+                <button onclick="estoque_setFiltro('esgotado')" data-filtro="esgotado" class="estoque-filtro-btn shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-all bg-gray-100 text-gray-600 hover:bg-gray-200">Esgotados</button>
+            </div>
+        </div>
+
+        <!-- Lista de produtos -->
+        <div class="flex-1 overflow-y-auto px-5 mt-4 pb-24" id="estoque-lista">
+            <!-- Cards serão renderizados via JS -->
+        </div>
+
+        <!-- Estado vazio -->
+        <div id="estoque-vazio" class="hidden flex-1 flex flex-col items-center justify-center px-8 pb-20">
+            <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/></svg>
+            </div>
+            <p class="font-display font-semibold text-gray-700 text-center">Nenhum produto encontrado</p>
+            <p class="text-sm text-gray-400 text-center mt-1">Tente ajustar os filtros ou a busca</p>
+        </div>
+
+        <!-- Botão flutuante -->
+        <button onclick="estoque_novo()" class="fixed bottom-6 right-6 w-14 h-14 bg-marca-700 hover:bg-marca-800 active:scale-90 text-white rounded-full shadow-xl shadow-marca-700/30 flex items-center justify-center transition-all z-40 md:absolute md:bottom-6 md:right-1/2 md:translate-x-[195px]">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
+        </button>
+    </div>
+</section>
+
+<script>
+const estoque_produtos = [
+    { id:1, nome:'Café Premium Torra Média', categoria:'Bebidas', qtd:48, qtdMin:10, custo:18.50, venda:32.90, unidade:'pacote 500g', fornecedor:'Café São Paulo Ltda', ultimaCompra:'2025-11-18', imagem:'CS', cor:'bg-amber-700', mov:[{tipo:'entrada',qtd:50,data:'2025-11-18',obs:'Compra NF-4821'},{tipo:'saida',qtd:2,data:'2025-11-19',obs:'Venda PDV #1083'}] },
+    { id:2, nome:'Arroz Integral Tipo 1', categoria:'Grãos', qtd:3, qtdMin:15, custo:22.00, venda:29.90, unidade:'pacote 5kg', fornecedor:'Grãos do Sul', ultimaCompra:'2025-11-10', imagem:'AI', cor:'bg-yellow-600', mov:[{tipo:'entrada',qtd:30,data:'2025-11-10',obs:'Compra NF-4780'},{tipo:'saida',qtd:27,data:'2025-11-19',obs:'Venda PDV #1098'}] },
+    { id:3, nome:'Azeite de Oliva Extra Virgem', categoria:'Óleos', qtd:0, qtdMin:8, custo:28.90, venda:45.90, unidade:'garrafa 500ml', fornecedor:'Azeitaria Portuguesa', ultimaCompra:'2025-10-25', imagem:'AO', cor:'bg-emerald-600', mov:[{tipo:'entrada',qtd:12,data:'2025-10-25',obs:'Compra NF-4710'},{tipo:'saida',qtd:12,data:'2025-11-15',obs:'Venda PDV #1075'}] },
+    { id:4, nome:'Feijão Carioca', categoria:'Grãos', qtd:62, qtdMin:20, custo:7.50, venda:12.90, unidade:'pacote 1kg', fornecedor:'Grãos do Sul', ultimaCompra:'2025-11-15', imagem:'FC', cor:'bg-red-800', mov:[{tipo:'entrada',qtd:80,data:'2025-11-15',obs:'Compra NF-4795'},{tipo:'saida',qtd:18,data:'2025-11-18',obs:'Venda PDV #1080'}] },
+    { id:5, nome:'Sabonete Líquido Antisséptico', categoria:'Limpeza', qtd:7, qtdMin:12, custo:8.20, venda:15.90, unidade:'fr 250ml', fornecedor:'Distribuidora Clean', ultimaCompra:'2025-11-01', imagem:'SL', cor:'bg-sky-600', mov:[{tipo:'entrada',qtd:20,data:'2025-11-01',obs:'Compra NF-4760'},{tipo:'saida',qtd:13,data:'2025-11-17',obs:'Venda PDV #1078'}] },
+    { id:6, nome:'Macarrão Espaguete nº8', categoria:'Massas', qtd:35, qtdMin:15, custo:3.20, venda:6.49, unidade:'pacote 500g', fornecedor:'Massas Italia', ultimaCompra:'2025-11-12', imagem:'ME', cor:'bg-orange-500', mov:[{tipo:'entrada',qtd:50,data:'2025-11-12',obs:'Compra NF-4785'},{tipo:'saida',qtd:15,data:'2025-11-19',obs:'Venda PDV #1089'}] },
+    { id:7, nome:'Leite Longa Vida Integral', categoria:'Laticínios', qtd:5, qtdMin:20, custo:4.80, venda:7.49, unidade:'litro', fornecedor:'Laticínios Vale Verde', ultimaCompra:'2025-11-19', imagem:'LV', cor:'bg-blue-100 text-blue-700', mov:[{tipo:'entrada',qtd:40,data:'2025-11-19',obs:'Compra NF-4810'},{tipo:'saida',qtd:35,data:'2025-11-19',obs:'Venda PDV #1095'}] },
+    { id:8, nome:'Detergente Neutro 500ml', categoria:'Limpeza', qtd:28, qtdMin:10, custo:1.80, venda:3.49, unidade:'unidade', fornecedor:'Distribuidora Clean', ultimaCompra:'2025-11-05', imagem:'DN', cor:'bg-lime-600', mov:[{tipo:'entrada',qtd:50,data:'2025-11-05',obs:'Compra NF-4755'},{tipo:'saida',qtd:22,data:'2025-11-18',obs:'Venda PDV #1082'}] },
+    { id:9, nome:'Açúcar Refinado', categoria:'Grãos', qtd:0, qtdMin:25, custo:4.50, venda:7.90, unidade:'pacote 2kg', fornecedor:'Grãos do Sul', ultimaCompra:'2025-10-20', imagem:'AR', cor:'bg-white text-gray-600 border border-gray-200', mov:[{tipo:'entrada',qtd:40,data:'2025-10-20',obs:'Compra NF-4690'},{tipo:'saida',qtd:40,data:'2025-11-10',obs:'Venda PDV #1065'}] },
+    { id:10, nome:'Farofa Temperada 300g', categoria:'Temperos', qtd:19, qtdMin:10, custo:5.60, venda:9.90, unidade:'frasco', fornecedor:'Temperos da Terra', ultimaCompra:'2025-11-08', imagem:'FT', cor:'bg-yellow-700', mov:[{tipo:'entrada',qtd:30,data:'2025-11-08',obs:'Compra NF-4770'},{tipo:'saida',qtd:11,data:'2025-11-17',obs:'Venda PDV #1076'}] },
+    { id:11, nome:'Cerveja Pilsen Lata 350ml', categoria:'Bebidas', qtd:96, qtdMin:30, custo:3.10, venda:5.99, unidade:'lata', fornecedor:'Cervejaria Artesanal Sul', ultimaCompra:'2025-11-19', imagem:'CP', cor:'bg-amber-500', mov:[{tipo:'entrada',qtd:120,data:'2025-11-19',obs:'Compra NF-4815'},{tipo:'saida',qtd:24,data:'2025-11-19',obs:'Venda PDV #1090'}] },
+    { id:12, nome:'Pão de Forma Integral', categoria:'Padaria', qtd:4, qtdMin:10, custo:6.80, venda:11.90, unidade:'pacote', fornecedor:'Padaria Central', ultimaCompra:'2025-11-18', imagem:'PF', cor:'bg-orange-300', mov:[{tipo:'entrada',qtd:20,data:'2025-11-18',obs:'Compra NF-4805'},{tipo:'saida',qtd:16,data:'2025-11-19',obs:'Venda PDV #1092'}] }
+];
+
+let estoque_filtroAtual = 'todos';
+
+function estoque_setFiltro(f) {
+    estoque_filtroAtual = f;
+    document.querySelectorAll('.estoque-filtro-btn').forEach(b => {
+        if (b.dataset.filtro === f) {
+            b.classList.remove('bg-gray-100','text-gray-600');
+            b.classList.add('bg-marca-700','text-white');
+        } else {
+            b.classList.add('bg-gray-100','text-gray-600');
+            b.classList.remove('bg-marca-700','text-white');
+        }
+    });
+    estoque_filtrar();
+}
+
+function estoque_status(p) {
+    if (p.qtd === 0) return { label:'Esgotado', cls:'bg-red-100 text-red-700' };
+    if (p.qtd <= p.qtdMin) return { label:'Baixo', cls:'bg-red-100 text-red-700' };
+    return { label:'Normal', cls:'bg-emerald-100 text-emerald-700' };
+}
+
+function estoque_filtrar() {
+    const busca = document.getElementById('estoque-busca').value.toLowerCase().trim();
+    let lista = estoque_produtos;
+    if (busca) lista = lista.filter(p => p.nome.toLowerCase().includes(busca));
+    if (estoque_filtroAtual === 'em-estoque') lista = lista.filter(p => p.qtd > p.qtdMin);
+    else if (estoque_filtroAtual === 'baixo') lista = lista.filter(p => p.qtd > 0 && p.qtd <= p.qtdMin);
+    else if (estoque_filtroAtual === 'esgotado') lista = lista.filter(p => p.qtd === 0);
+
+    const container = document.getElementById('estoque-lista');
+    const vazio = document.getElementById('estoque-vazio');
+    container.innerHTML = '';
+
+    if (lista.length === 0) {
+        container.classList.add('hidden');
+        vazio.classList.remove('hidden');
+        return;
+    }
+    container.classList.remove('hidden');
+    vazio.classList.add('hidden');
+
+    lista.forEach((p, i) => {
+        const st = estoque_status(p);
+        const isBaixo = p.qtd > 0 && p.qtd <= p.qtdMin;
+        const isEsgotado = p.qtd === 0;
+        const qtdCor = isEsgotado ? 'text-red-600 font-bold' : isBaixo ? 'text-red-600 font-bold' : 'text-gray-900';
+
+        const card = document.createElement('div');
+        card.onclick = () => estoque_detalhe(p.id);
+        card.className = 'bg-white rounded-2xl p-4 mb-3 border border-gray-100 shadow-sm active:scale-[0.98] transition-all cursor-pointer';
+        card.style.animationDelay = (i * 30) + 'ms';
+        card.innerHTML = `
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 ${p.cor} rounded-xl flex items-center justify-center font-display font-bold text-sm shrink-0 shadow-inner">
+                    ${p.imagem}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-sm text-gray-900 truncate">${p.nome}</p>
+                    <p class="text-xs text-gray-400 mt-0.5">${p.categoria} · ${p.unidade}</p>
+                </div>
+                <span class="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold ${st.cls}">${st.label}</span>
+            </div>
+            <div class="flex items-end justify-between mt-3 pt-3 border-t border-gray-50">
+                <div class="flex gap-4">
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Qtd</p>
+                        <p class="text-sm font-bold ${qtdCor}">${p.qtd === 0 ? '—' : p.qtd} <span class="text-gray-400 font-normal text-xs">/ ${p.qtdMin}</span></p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Custo</p>
+                        <p class="text-sm font-semibold text-gray-600">${brl(p.custo)}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider font-medium">Venda</p>
+                    <p class="text-sm font-bold text-marca-700">${brl(p.venda)}</p>
+                </div>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+function estoque_detalhe(id) {
+    const p = estoque_produtos.find(x => x.id === id);
+    if (!p) return;
+    const st = estoque_status(p);
+    const margem = ((p.venda - p.custo) / p.custo * 100).toFixed(1);
+
+    const movHtml = p.mov.map(m => `
+        <div class="flex items-center gap-3 py-2.5 ${m !== p.mov[p.mov.length-1] ? 'border-b border-gray-50' : ''}">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${m.tipo === 'entrada' ? 'bg-emerald-100 text-emerald-600' : 'bg-blue-100 text-blue-600'}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="${m.tipo === 'entrada' ? 'M12 4v16m8-8H4' : 'M20 12H4'}"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-800">${m.tipo === 'entrada' ? 'Entrada' : 'Saída'} de <strong>${m.qtd}</strong> un.</p>
+                <p class="text-xs text-gray-400">${m.obs}</p>
+            </div>
+            <span class="text-xs text-gray-400 shrink-0">${dataBR(m.data)}</span>
+        </div>
+    `).join('');
+
+    const html = `
+        <div class="space-y-4">
+            <div class="flex items-center gap-3.5">
+                <div class="w-14 h-14 ${p.cor} rounded-xl flex items-center justify-center font-display font-bold text-base shadow-inner">
+                    ${p.imagem}
+                </div>
+                <div class="flex-1">
+                    <h3 class="font-display font-bold text-gray-900">${p.nome}</h3>
+                    <p class="text-sm text-gray-500">${p.fornecedor}</p>
+                    <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${st.cls}">${st.label}</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div class="bg-gray-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Qtd atual</p>
+                    <p class="font-display font-bold text-lg ${p.qtd <= p.qtdMin ? 'text-red-600' : 'text-gray-900'}">${p.qtd}</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Custo</p>
+                    <p class="font-display font-bold text-lg text-gray-700">${brl(p.custo)}</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-3 text-center">
+                    <p class="text-[10px] text-gray-400 uppercase tracking-wider">Venda</p>
+                    <p class="font-display font-bold text-lg text-marca-700">${brl(p.venda)}</p>
+                </div>
+            </div>
+
+            <div class="bg-marca-50 rounded-xl p-3 flex items-center justify-between">
+                <span class="text-xs text-marca-700 font-medium">Margem de lucro</span>
+                <span class="font-display font-bold text-marca-700 text-lg">+${margem}%</span>
+            </div>
+
+            <div class="border-t border-gray-100 pt-3">
+                <h4 class="text-sm font-semibold text-gray-700 mb-2">Informações</h4>
+                <div class="space-y-2 text-sm">
+                    <div class="flex justify-between"><span class="text-gray-400">Categoria</span><span class="text-gray-700 font-medium">${p.categoria}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Unidade</span><span class="text-gray-700 font-medium">${p.unidade}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Fornecedor</span><span class="text-gray-700 font-medium">${p.fornecedor}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Última compra</span><span class="text-gray-700 font-medium">${dataBR(p.ultimaCompra)}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-400">Estoque mínimo</span><span class="text-gray-700 font-medium">${p.qtdMin} un.</span></div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-100 pt-3">
+                <h4 class="text-sm font-semibold text-gray-700 mb-2">Histórico de movimentações</h4>
+                <div>${movHtml}</div>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button onclick="estoque_ajustarQtd(${p.id})" class="flex-1 bg-marca-700 hover:bg-marca-800 active:scale-95 text-white rounded-xl py-3 text-sm font-semibold transition-all">Ajustar quantidade</button>
+                <button onclick="estoque_movimentar(${p.id},'entrada')" class="shrink-0 bg-emerald-100 hover:bg-emerald-200 active:scale-95 text-emerald-700 rounded-xl px-4 py-3 text-sm font-semibold transition-all flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 4v16m8-8H4"/></svg>
+                    Entrada
+                </button>
+                <button onclick="estoque_movimentar(${p.id},'saida')" class="shrink-0 bg-blue-100 hover:bg-blue-200 active:scale-95 text-blue-700 rounded-xl px-4 py-3 text-sm font-semibold transition-all flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M20 12H4"/></svg>
+                    Saída
+                </button>
+            </div>
+        </div>
+    `;
+    abrirModal(html, p.nome);
+}
+
+function estoque_ajustarQtd(id) {
+    const p = estoque_produtos.find(x => x.id === id);
+    if (!p) return;
+    const html = `
+        <div class="space-y-4">
+            <p class="text-sm text-gray-500">Estoque atual de <strong class="text-gray-800">${p.nome}</strong>: <strong class="text-marca-700">${p.qtd} un.</strong></p>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1.5">Nova quantidade</label>
+                <input id="ajuste-qtd" type="number" value="${p.qtd}" min="0"
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 text-center text-lg font-bold focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all">
+            </div>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1.5">Motivo do ajuste</label>
+                <textarea id="ajuste-motivo" rows="2" placeholder="Descreva o motivo..."
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all resize-none"></textarea>
+            </div>
+            <button onclick="estoque_confirmarAjuste(${p.id})" class="w-full bg-marca-700 hover:bg-marca-800 active:scale-[0.98] text-white rounded-xl py-3 text-sm font-semibold transition-all">Confirmar ajuste</button>
+        </div>
+    `;
+    fecharModal();
+    setTimeout(() => abrirModal(html, 'Ajustar quantidade'), 100);
+}
+
+function estoque_confirmarAjuste(id) {
+    const p = estoque_produtos.find(x => x.id === id);
+    const novaQtd = parseInt(document.getElementById('ajuste-qtd').value);
+    const motivo = document.getElementById('ajuste-motivo').value.trim();
+    if (isNaN(novaQtd) || novaQtd < 0) { toast('Informe uma quantidade válida', 'erro'); return; }
+    if (!motivo) { toast('Informe o motivo do ajuste', 'erro'); return; }
+    p.qtd = novaQtd;
+    p.mov.unshift({ tipo: 'ajuste', qtd: novaQtd, data: new Date().toISOString().slice(0,10), obs: 'Ajuste: ' + motivo });
+    fecharModal();
+    toast(`Quantidade de "${p.nome}" atualizada para ${novaQtd} un.`, 'ok');
+    estoque_filtrar();
+}
+
+function estoque_movimentar(id, tipo) {
+    const p = estoque_produtos.find(x => x.id === id);
+    if (!p) return;
+    const label = tipo === 'entrada' ? 'Entrada' : 'Saída';
+    const html = `
+        <div class="space-y-4">
+            <p class="text-sm text-gray-500">Registrar <strong class="${tipo==='entrada'?'text-emerald-700':'text-blue-700'}">${label.toLowerCase()}</strong> de estoque para <strong class="text-gray-800">${p.nome}</strong></p>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1.5">Quantidade</label>
+                <input id="mov-qtd" type="number" placeholder="0" min="1"
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 text-center text-lg font-bold focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all">
+            </div>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1.5">Observação</label>
+                <input id="mov-obs" type="text" placeholder="Ex: Devolução, transferência..."
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all">
+            </div>
+            <button onclick="estoque_confirmarMov(${p.id},'${tipo}')" class="w-full ${tipo==='entrada'?'bg-emerald-600 hover:bg-emerald-700':'bg-blue-600 hover:bg-blue-700'} active:scale-[0.98] text-white rounded-xl py-3 text-sm font-semibold transition-all">Registrar ${label.toLowerCase()}</button>
+        </div>
+    `;
+    fecharModal();
+    setTimeout(() => abrirModal(html, label + ' no estoque'), 100);
+}
+
+function estoque_confirmarMov(id, tipo) {
+    const p = estoque_produtos.find(x => x.id === id);
+    const qtd = parseInt(document.getElementById('mov-qtd').value);
+    const obs = document.getElementById('mov-obs').value.trim() || (tipo === 'entrada' ? 'Entrada manual' : 'Saída manual');
+    if (isNaN(qtd) || qtd <= 0) { toast('Informe uma quantidade válida', 'erro'); return; }
+    if (tipo === 'saida' && qtd > p.qtd) { toast('Quantidade insuficiente em estoque', 'erro'); return; }
+    p.qtd = tipo === 'entrada' ? p.qtd + qtd : p.qtd - qtd;
+    p.mov.unshift({ tipo, qtd, data: new Date().toISOString().slice(0,10), obs });
+    fecharModal();
+    toast(`${tipo === 'entrada' ? 'Entrada' : 'Saída'} de ${qtd} un. registrada para "${p.nome}"`, 'ok');
+    estoque_filtrar();
+}
+
+function estoque_novo() {
+    const html = `
+        <div class="space-y-3">
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Nome do produto</label>
+                <input id="novo-nome" type="text" placeholder="Ex: Arroz Branco"
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 focus:border-marca-500 transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Categoria</label>
+                    <select id="novo-cat" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+                        <option>Bebidas</option><option>Grãos</option><option>Óleos</option><option>Limpeza</option>
+                        <option>Massas</option><option>Laticínios</option><option>Temperos</option><option>Padaria</option><option>Outros</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Unidade</label>
+                    <input id="novo-un" type="text" placeholder="Ex: pacote 1kg"
+                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Qtd inicial</label>
+                    <input id="novo-qtd" type="number" value="0" min="0"
+                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Custo (R$)</label>
+                    <input id="novo-custo" type="number" step="0.01" placeholder="0,00"
+                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+                </div>
+                <div>
+                    <label class="text-xs font-semibold text-gray-600 block mb-1">Venda (R$)</label>
+                    <input id="novo-venda" type="number" step="0.01" placeholder="0,00"
+                        class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+                </div>
+            </div>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Estoque mínimo</label>
+                <input id="novo-min" type="number" value="5" min="0"
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 text-center focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+            </div>
+            <div>
+                <label class="text-xs font-semibold text-gray-600 block mb-1">Fornecedor</label>
+                <input id="novo-forn" type="text" placeholder="Nome do fornecedor"
+                    class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-marca-500/30 transition-all">
+            </div>
+            <button onclick="estoque_confirmarNovo()" class="w-full bg-marca-700 hover:bg-marca-800 active:scale-[0.98] text-white rounded-xl py-3 text-sm font-semibold transition-all">Cadastrar produto</button>
+        </div>
+    `;
+    abrirModal(html, 'Cadastrar produto');
+}
+
+function estoque_confirmarNovo() {
+    const nome = document.getElementById('novo-nome').value.trim();
+    const cat = document.getElementById('novo-cat').value;
+    const un = document.getElementById('novo-un').value.trim();
+    const qtd = parseInt(document.getElementById('novo-qtd').value) || 0;
+    const custo = parseFloat(document.getElementById('novo-custo').value) || 0;
+    const venda = parseFloat(document.getElementById('novo-venda').value) || 0;
+    const min = parseInt(document.getElementById('novo-min').value) || 5;
+    const forn = document.getElementById('novo-forn').value.trim();
+    if (!nome || !un || !forn) { toast('Preencha nome, unidade e fornecedor', 'erro'); return; }
+    if (custo <= 0 || venda <= 0) { toast('Informe os preços de custo e venda', 'erro'); return; }
+    const cores = ['bg-gray-700','bg-stone-600','bg-slate-600','bg-zinc-600','bg-neutral-600'];
+    const iniciais = nome.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const novo = {
+        id: Date.now(), nome, categoria: cat, qtd, qtdMin: min, custo, venda, unidade: un,
+        fornecedor: forn, ultimaCompra: new Date().toISOString().slice(0,10),
+        imagem: iniciais, cor: cores[Math.floor(Math.random()*cores.length)],
+        mov: qtd > 0 ? [{ tipo:'entrada', qtd, data: new Date().toISOString().slice(0,10), obs:'Cadastro inicial' }] : []
+    };
+    estoque_produtos.unshift(novo);
+    fecharModal();
+    toast(`"${nome}" cadastrado com sucesso!`, 'ok');
+    estoque_filtrar();
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => estoque_filtrar());
+</script>
+
     <!-- TELAS -->
 
     </div>
